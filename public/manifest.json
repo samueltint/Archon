@@ -6,10 +6,10 @@
   "icon": "/wings.png",
   "action": {
     "title": "Archon",
-    "icon": "/wings.svg",
+    "icon": "/wingsOutline.svg",
     "popover": "/",
     "height": 600,
-    "width": 400
+    "width": 500
   }
 }
 
