@@ -1,6 +1,7 @@
 export interface Creature {
   id: number;
   name: string;
+  isPlayer: boolean;
   initiative?: number;
   initiativeModifier?: number;
   maxHp?: number;
