@@ -5,6 +5,7 @@ import InitiativeItemInput from "./initiativeItemInput";
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
   onUpdate: (creature: Creature) => void;
+  isActive: boolean;
 }) {
   if (!props.creature.currentHp) {
     props.onUpdate({
@@ -22,6 +23,7 @@ export default function CreatureInitiativeItem(props: {
         gap: 0.8,
         p: 1,
         borderRadius: 1,
+        backgroundColor: props.isActive ? "action.selected" : "background.paper",
       }}
       variant="outlined"
     >
@@ -41,17 +43,20 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></InitiativeItemInput>
+      
       <Divider orientation="vertical" variant="middle" flexItem />
 
       <InitiativeItemInput
         size="sm"
         value={props.creature.name}
-        sx={{ flex: 1 }}
+        sx={{ flex: 1 , fontWeight: "bold", color: props.creature.isPlayer ? "primary.main" : "text.primary" }}
         onChange={(e) => {
           props.onUpdate({ ...props.creature, name: e.target.value });
         }}
       ></InitiativeItemInput>
+
       <Divider orientation="vertical" variant="middle" flexItem />
+      
       <InitiativeItemInput
         value={props.creature.currentHp}
         size="sm"
