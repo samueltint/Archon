@@ -2,6 +2,7 @@ export interface Creature {
   id: string | number;
   name: string;
   isPlayer: boolean;
+  isVisible: boolean;
   initiative?: number;
   initiativeModifier?: number;
   currentHp?: number;

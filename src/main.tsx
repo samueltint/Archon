@@ -1,34 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import { darkTheme } from './theme'
-import App from './App.tsx'
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import OBR from "@owlbear-rodeo/sdk";
-import { setupContextMenu } from "./components/contextMenu";
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-OBR.onReady(() => {
-  setupContextMenu();
-});
+import "./index.css";
+import { PluginGate } from "./util/PluginGate";
+import { PluginThemeProvider } from "./util/PluginThemeProvider";
+import App from "./App";
 
-function Root() {
-  const selectedTheme = darkTheme
-
-  return (
-    <ThemeProvider theme={selectedTheme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  )
-}
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Root />
-  </StrictMode>,
-)
-
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <PluginGate>
+      <PluginThemeProvider>
+        <App />
+      </PluginThemeProvider>
+    </PluginGate>
+  </React.StrictMode>,
+);
