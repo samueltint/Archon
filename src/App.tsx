@@ -1,12 +1,9 @@
 import { useState } from "react";
-import CreatureInitiativeItem from "./components/creatureInitiativeItem";
 import {
   Button,
   Container,
   Box,
   Stack,
-  List,
-  ListItem,
   Divider,
   Typography,
   IconButton,
@@ -14,15 +11,9 @@ import {
 import CasinoIcon from "@mui/icons-material/Casino";
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import type { Creature } from "./types/creature";
-import {
-  Favorite,
-  PriorityHigh,
-  Redo,
-  Shield,
-  Undo,
-} from "@mui/icons-material";
-import TempHpIcon from "./components/TempHpIcon";
+import { Redo, Undo } from "@mui/icons-material";
 import Dialog from "@mui/material/Dialog";
+import CreatureInitiativeList from "./components/creatureInitiativeList";
 
 function App() {
   // Clear dialog controls
@@ -73,7 +64,7 @@ function App() {
   ]);
 
   // initiative state
-  const [currentInitiative, setCurrentInitiative] = useState(50);
+  const [activeCreatureId, setActiveCreatureId] = useState<Creature["id"] | null>(null);
   const [roundCount, setRoundCount] = useState(1);
 
   const getCreatureInitiative = (creature: Creature | undefined) => {
@@ -85,54 +76,49 @@ function App() {
   };
 
   const sortCreatures = (creatures: Creature[]) => {
-    return [...creatures].sort((a, b) => {
-      const diff = getCreatureInitiative(b) - getCreatureInitiative(a);
-      if (diff == 0) {
-        return (b.initiativeModifier ?? 0) - (a.initiativeModifier ?? 0);
-      } else {
-        return diff;
-      }
-    });
+    return [...creatures].sort(compareCreatureInitiatives);
   };
 
   const handleInitiativeBack = () => {
     const sortedCreatures = sortCreatures(creatures);
-    console.log(currentInitiative);
-    console.log(sortedCreatures.map((c) => getCreatureInitiative(c)));
-    const firstCreature = sortedCreatures[0];
-    const lastCreature = sortedCreatures[sortedCreatures.length - 1];
-    if (currentInitiative >= getCreatureInitiative(firstCreature)) {
-      setCurrentInitiative(getCreatureInitiative(lastCreature));
-      setRoundCount(Math.max(roundCount - 1, 0));
-    } else {
-      for (let i = sortedCreatures.length - 1; i >= 0; i--) {
-        const c = sortedCreatures[i];
-        if (getCreatureInitiative(c) > currentInitiative) {
-          setCurrentInitiative(getCreatureInitiative(c));
-          break;
-        }
-      }
+    if (!sortedCreatures.length) {
+      return;
     }
+
+    const activeIndex = sortedCreatures.findIndex(
+      (creature) => creature.id === activeCreatureId,
+    );
+    const nextIndex =
+      activeIndex === -1 ? sortedCreatures.length - 1 : (activeIndex - 1 + sortedCreatures.length) % sortedCreatures.length;
+
+    setActiveCreatureId(sortedCreatures[nextIndex].id);
+    setRoundCount(
+      Math.max(roundCount - (activeIndex === -1 || nextIndex > activeIndex ? 1 : 0), 0),
+    );
   };
 
   const handleInitiativeNext = () => {
     const sortedCreatures = sortCreatures(creatures);
-    console.log(currentInitiative);
-    console.log(sortedCreatures.map((c) => getCreatureInitiative(c)));
-    const firstCreature = sortedCreatures[0];
-    const lastCreature = sortedCreatures[sortedCreatures.length - 1];
-    if (currentInitiative <= getCreatureInitiative(lastCreature)) {
-      setCurrentInitiative(getCreatureInitiative(firstCreature));
-      setRoundCount(roundCount + 1);
-    } else {
-      for (let i = 0; i < sortedCreatures.length; i++) {
-        const c = sortedCreatures[i];
-        if (getCreatureInitiative(c) < currentInitiative) {
-          setCurrentInitiative(getCreatureInitiative(c));
-          break;
-        }
-      }
+    if (!sortedCreatures.length) {
+      return;
     }
+
+    const activeIndex = sortedCreatures.findIndex(
+      (creature) => creature.id === activeCreatureId,
+    );
+    const nextIndex =
+      activeIndex === -1 ? 0 : (activeIndex + 1) % sortedCreatures.length;
+
+    setActiveCreatureId(sortedCreatures[nextIndex].id);
+    setRoundCount(roundCount + (activeIndex === -1 || nextIndex <= activeIndex ? 1 : 0));
+  };
+  
+  const compareCreatureInitiatives = (a: Creature, b: Creature) => {
+    const diff = getCreatureInitiative(b) - getCreatureInitiative(a);
+    if (diff == 0) {
+      return (b.initiativeModifier ?? 0) - (a.initiativeModifier ?? 0);
+    }
+    return diff;
   };
 
   return (
@@ -145,114 +131,14 @@ function App() {
         py: 4,
       }}
     >
-      {/* Creatures List */}
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 0,
-          gap: 3,
-        }}
-      >
-        <List
-          sx={{
-            width: "100%",
-            gap: 1.5,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {/* Table Header */}
-          <ListItem key="header" sx={{ padding: 0 }}>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                gap: 0.8,
-                p: 1,
-                borderRadius: 1,
-              }}
-            >
-              <Box
-                sx={{
-                  width: "40px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <PriorityHigh fontSize="small" color="primary" />
-              </Box>
-              <Divider orientation="vertical" flexItem />
-
-              <Typography
-                variant="subtitle2"
-                color="textSecondary"
-                sx={{ flex: 1 }}
-              >
-                Creature
-              </Typography>
-              <Divider orientation="vertical" flexItem />
-
-              <Box
-                sx={{
-                  width: "100px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Favorite fontSize="small" color="primary" />
-              </Box>
-
-              <Divider orientation="vertical" flexItem />
-              <Box
-                sx={{
-                  width: "40px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <TempHpIcon fontSize="small" color="primary" />
-              </Box>
-
-              <Divider orientation="vertical" flexItem />
-              <Box
-                sx={{
-                  width: "40px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Shield fontSize="small" color="primary" />
-              </Box>
-            </Box>
-          </ListItem>
-
-          {sortCreatures(creatures).map((creature) => (
-            <ListItem key={creature.id} sx={{ padding: 0 }}>
-              <CreatureInitiativeItem
-                creature={creature}
-                onUpdate={(updatedCreature) => {
-                  if (currentInitiative == getCreatureInitiative(creature)) {
-                    setCurrentInitiative(
-                      getCreatureInitiative(updatedCreature),
-                    );
-                  }
-                  setCreatures((prev) =>
-                    prev.map((c) =>
-                      c.id === updatedCreature.id ? updatedCreature : c,
-                    ),
-                  );
-                }}
-                isActive={currentInitiative == getCreatureInitiative(creature)}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      <CreatureInitiativeList
+        creatures={creatures}
+        setCreatures={setCreatures}
+        sortCreatures={sortCreatures}
+        compareCreatureInitiatives={compareCreatureInitiatives}
+        getCreatureInitiative={getCreatureInitiative}
+        activeCreatureId={activeCreatureId}
+      />
       <Box sx={{ flex: 1 }} />
 
       <Divider sx={{ my: 2 }} />
@@ -296,9 +182,7 @@ function App() {
             }));
             setCreatures(newCreatures);
             setRoundCount(1);
-            setCurrentInitiative(
-              getCreatureInitiative(sortCreatures(newCreatures).at(0)),
-            );
+            setActiveCreatureId(sortCreatures(newCreatures).at(0)?.id ?? null);
           }}
         >
           Roll Initiative
@@ -330,7 +214,7 @@ function App() {
               onClick={() => {
                 setCreatures([]);
                 setRoundCount(1);
-                setCurrentInitiative(50);
+                setActiveCreatureId(null);
               }}
             >
               Clear

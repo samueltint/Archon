@@ -1,5 +1,5 @@
 export interface Creature {
-  id: number;
+  id: string | number;
   name: string;
   isPlayer: boolean;
   initiative?: number;
