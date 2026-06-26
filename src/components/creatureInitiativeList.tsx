@@ -21,25 +21,14 @@ import {
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import TempHpIcon from "./TempHpIcon";
 import CreatureInitiativeItem from "./creatureInitiativeItem";
-import type { Creature } from "../types/creature";
+import type { Creature, CreatureMetadata } from "../types/creature";
 import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../util/getPluginId";
 import { isPlainObject } from "../util/isPlainObject";
 
-function isMetadata(
-  metadata: unknown,
-): metadata is { count: string; active: boolean } {
-  return (
-    isPlainObject(metadata) &&
-    typeof metadata.count === "string" &&
-    typeof metadata.active === "boolean"
-  );
-}
-
 type CreatureInitiativeListProps = {
   creatures: Creature[];
   setCreatures: Dispatch<SetStateAction<Creature[]>>;
-  sceneReady: boolean;
 };
 
 function CreatureInitiativeList(props: CreatureInitiativeListProps) {
@@ -55,13 +44,25 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
       const creatures: Creature[] = [];
       for (const item of items) {
         if (isImage(item)) {
-          const metadata = item.metadata[getPluginId("metadata")];
-          if (isMetadata(metadata)) {
+          const initiativeMetadata = item.metadata[
+            getPluginId("initiative/metadata")
+          ] as { initiative: number };
+          const creatureMetadata = item.metadata[
+            getPluginId("creature/metadata")
+          ] as CreatureMetadata;
+          if (isPlainObject(initiativeMetadata)) {
             creatures.push({
               id: item.id,
               name: item.text.plainText || item.name,
+              initiative: initiativeMetadata.initiative,
+              initiativeModifier: creatureMetadata?.initiativeModifier ?? 0,
               isPlayer: false,
               isVisible: item.visible,
+              maxHp: creatureMetadata?.maxHp ?? 0,
+              currentHp:
+                creatureMetadata?.currentHp ?? creatureMetadata?.maxHp ?? 0,
+              tempHp: creatureMetadata?.tempHp ?? 0,
+              AC: creatureMetadata?.AC ?? 0,
             });
           }
         }
@@ -85,7 +86,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
               { key: "layer", value: "MOUNT" },
               { key: "type", value: "IMAGE" },
               {
-                key: ["metadata", getPluginId("metadata")],
+                key: ["metadata", getPluginId("initiative/metadata")],
                 value: undefined,
               },
             ],
@@ -105,22 +106,20 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           },
         },
       ],
-      id: getPluginId("menu/toggle"),
+      id: getPluginId("menu/toggleInitiative"),
       onClick(context) {
         OBR.scene.items.updateItems(context.items, (items) => {
           const addToInitiative = items.every(
-            (item) => item.metadata[getPluginId("metadata")] === undefined,
+            (item) =>
+              item.metadata[getPluginId("initiative/metadata")] === undefined,
           );
-          let count = 0;
           for (const item of items) {
             if (addToInitiative) {
-              item.metadata[getPluginId("metadata")] = {
-                count: `${count}`,
-                active: false,
+              item.metadata[getPluginId("initiative/metadata")] = {
+                initiative: 0,
               };
-              count += 1;
             } else {
-              delete item.metadata[getPluginId("metadata")];
+              delete item.metadata[getPluginId("initiative/metadata")];
             }
           }
         });
@@ -204,10 +203,44 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
   };
 
   const handleClear = () => {
-    props.setCreatures([]);
+    OBR.scene.items.updateItems(isImage, (items) => {
+      for (const item of items) {
+        delete item.metadata[getPluginId("initiative/metadata")];
+      }
+    });
     setRoundCount(1);
     setActiveCreatureId(null);
     setOpen(false);
+  };
+
+  const onUpdate = (updatedCreature: Creature) => {
+    setCreatures((prev) =>
+      prev.map((c) => (c.id === updatedCreature.id ? updatedCreature : c)),
+    );
+  };
+
+  const handleSaveMetadata = () => {
+    OBR.scene.items.updateItems(isImage, (items) => {
+      for (const item of items) {
+        const creature = creatures.find((creature) => creature.id === item.id);
+
+        if (creature == undefined) continue;
+        if ((creature.currentHp ?? 0) > (creature.maxHp ?? 0)) {
+          creature.currentHp = creature.maxHp;
+        }
+        item.name = creature.name;
+        item.metadata[getPluginId("creature/metadata")] = {
+          maxHp: creature.maxHp,
+          currentHp: creature.currentHp,
+          tempHp: creature.tempHp,
+          AC: creature.AC,
+          initiativeModifier: creature.initiativeModifier,
+        };
+        item.metadata[getPluginId("initiative/metadata")] = {
+          initiative: creature.initiative,
+        };
+      }
+    });
   };
 
   const activeCreature = creatures.find(
@@ -223,7 +256,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         justifyContent: "center",
         alignItems: "center",
         paddingTop: 0,
-        gap: 3,
+        gap: 1,
       }}
     >
       <List
@@ -305,13 +338,8 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             <ListItem key={creature.id} sx={{ padding: 0 }}>
               <CreatureInitiativeItem
                 creature={creature}
-                onUpdate={(updatedCreature) => {
-                  setCreatures((prev) =>
-                    prev.map((c) =>
-                      c.id === updatedCreature.id ? updatedCreature : c,
-                    ),
-                  );
-                }}
+                onUpdate={onUpdate}
+                onBlur={handleSaveMetadata}
                 isActive={activeCreature?.id === creature.id}
               />
             </ListItem>
@@ -322,7 +350,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
       </List>
       <Box sx={{ flex: 1 }} />
 
-      <Divider sx={{ my: 2 }} />
+      <Divider flexItem />
       <Stack
         direction="row"
         spacing={1.5}
@@ -335,7 +363,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         <IconButton onClick={handleInitiativeBack}>
           <Undo />
         </IconButton>
-        <Typography variant="subtitle1" sx={{ alignSelf: "center" }}>
+        <Typography variant="h6" sx={{ alignSelf: "center" }}>
           Round {roundCount}
         </Typography>
         <IconButton onClick={handleInitiativeNext}>
@@ -345,6 +373,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
       <Stack
         direction="row"
         spacing={1.5}
+        useFlexGap
         sx={{
           justifyContent: "center",
           flexWrap: "wrap",
@@ -360,11 +389,11 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         </Button>
         <Button
           variant="outlined"
-          color="primary"
+          color="error"
           startIcon={<DoNotDisturb />}
           onClick={() => setOpen(true)}
         >
-          Clear
+          Clear Initiative List
         </Button>
         <Dialog open={open} onClose={() => setOpen(false)}>
           <Typography variant="subtitle1" sx={{ p: 3 }}>

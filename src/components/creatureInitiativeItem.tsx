@@ -6,9 +6,10 @@ import InitiativeItemInput from "./initiativeItemInput";
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
   onUpdate: (creature: Creature) => void;
+  onBlur: () => void;
   isActive: boolean;
 }) {
-  const { creature, onUpdate, isActive } = props;
+  const { creature, onUpdate, onBlur, isActive } = props;
 
   useEffect(() => {
     if (creature.currentHp == null) {
@@ -34,11 +35,9 @@ export default function CreatureInitiativeItem(props: {
     >
       <InitiativeItemInput
         sx={{ width: "auto" }}
-        value={
-          (creature.initiative ?? 0) +
-          (creature.initiativeModifier ?? 0)
-        }
+        value={(creature.initiative ?? 0) + (creature.initiativeModifier ?? 0)}
         size="sm"
+        onBlur={onBlur}
         onChange={(e) => {
           const initiative = parseInt(e.target.value) || 0;
           const modifier = creature.initiativeModifier ?? 0;
@@ -48,23 +47,29 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></InitiativeItemInput>
-      
+
       <Divider orientation="vertical" variant="middle" flexItem />
 
       <InitiativeItemInput
         size="sm"
         value={creature.name}
-        sx={{ flex: 1 , fontWeight: "bold", color: creature.isPlayer ? "primary.main" : "text.primary" }}
+        sx={{
+          flex: 1,
+          fontWeight: "bold",
+          color: creature.isPlayer ? "primary.main" : "text.primary",
+        }}
+        onBlur={onBlur}
         onChange={(e) => {
           onUpdate({ ...creature, name: e.target.value });
         }}
       ></InitiativeItemInput>
 
       <Divider orientation="vertical" variant="middle" flexItem />
-      
+
       <InitiativeItemInput
         value={creature.currentHp ?? creature.maxHp ?? 0}
         size="sm"
+        onBlur={onBlur}
         onChange={(e) => {
           onUpdate({
             ...creature,
@@ -78,6 +83,7 @@ export default function CreatureInitiativeItem(props: {
       <InitiativeItemInput
         value={creature.maxHp}
         size="sm"
+        onBlur={onBlur}
         onChange={(e) => {
           onUpdate({
             ...creature,
@@ -91,6 +97,7 @@ export default function CreatureInitiativeItem(props: {
         value={creature.tempHp ?? 0}
         size="sm"
         sx={{ width: "auto" }}
+        onBlur={onBlur}
         onChange={(e) => {
           onUpdate({
             ...creature,
@@ -104,6 +111,7 @@ export default function CreatureInitiativeItem(props: {
         value={creature.AC ?? 0}
         size="sm"
         sx={{ width: "auto" }}
+        onBlur={onBlur}
         onChange={(e) => {
           onUpdate({
             ...creature,

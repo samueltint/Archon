@@ -1,18 +1,21 @@
-export interface Creature {
+export interface Creature extends CreatureMetadata {
   id: string | number;
   name: string;
-  isPlayer: boolean;
   isVisible: boolean;
   initiative?: number;
-  initiativeModifier?: number;
+}
+
+export type CreatureMetadata = {
+  isPlayer: boolean;
   currentHp?: number;
   maxHp?: number;
   tempHp?: number;
   AC?: number;
+  initiativeModifier?: number;
   str?: number;
   dex?: number;
   con?: number;
   int?: number;
   wis?: number;
   cha?: number;
-}
+};

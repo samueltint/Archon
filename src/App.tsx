@@ -27,7 +27,10 @@ function App() {
         py: 4,
       }}
     >
-      <CreatureInitiativeList creatures={creatures} setCreatures={setCreatures} sceneReady={sceneReady} />
+      <CreatureInitiativeList
+        creatures={creatures}
+        setCreatures={setCreatures}
+      />
     </Container>
   );
 }
