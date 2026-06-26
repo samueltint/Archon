@@ -1,5 +1,15 @@
+export interface CreaturePreview {
+  name: string;
+  slug: string;
+  maxHp?: number;
+  ac?: number;
+  stats?: CreatureStats;
+  cr?: number;
+}
+
 export interface Creature extends CreatureMetadata {
   id: string | number;
+  slug?: string;
   name: string;
   isVisible: boolean;
   initiative?: number;
@@ -7,10 +17,11 @@ export interface Creature extends CreatureMetadata {
 
 export interface CreatureMetadata {
   isPlayer: boolean;
+  cr?: number;
   currentHp?: number;
   maxHp?: number;
   tempHp?: number;
-  AC?: number;
+  ac?: number;
   initiativeModifier?: number;
   stats?: CreatureStats;
   actions?: CreatureActions;
@@ -31,5 +42,5 @@ export type CreatureActions = {
   reactions?: string;
   legendaryActions?: string;
   mythicActions?: string;
-  lairActiosn?: string;
+  lairActions?: string;
 };

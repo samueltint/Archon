@@ -1,9 +1,9 @@
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
 import type { Creature } from "./types/creature";
-import CreatureInitiativeList from "./components/creatureInitiativeList";
+import CreatureInitiativeList from "./components/initiative/creatureInitiativeList";
 import OBR from "@owlbear-rodeo/sdk";
-import StatblockList from "./components/statblockList";
+import StatblockList from "./components/statblocks/statblockList";
 
 interface TabPanelProps {
   children?: React.ReactNode;
