@@ -17,6 +17,7 @@ import {
   ListItem,
   Stack,
   Typography,
+  Container,
 } from "@mui/material";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import TempHpIcon from "./TempHpIcon";
@@ -253,18 +254,15 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 0,
-        gap: 1,
+        minHeight: 0,
       }}
     >
-      <List
+      <Container
         sx={{
-          width: "100%",
-          gap: 1.5,
+          flex: 1,
           display: "flex",
           flexDirection: "column",
+          minHeight: 0,
         }}
       >
         {/* Table Header */}
@@ -332,24 +330,35 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             </Box>
           </Box>
         </ListItem>
-        <Divider />
-        {creatures.length ? (
-          sortCreatures(creatures).map((creature) => (
-            <ListItem key={creature.id} sx={{ padding: 0 }}>
-              <CreatureInitiativeItem
-                creature={creature}
-                onUpdate={onUpdate}
-                onBlur={handleSaveMetadata}
-                isActive={activeCreature?.id === creature.id}
-              />
-            </ListItem>
-          ))
-        ) : (
-          <Typography align="center">No Creatures Added Yet</Typography>
-        )}
-      </List>
-      <Box sx={{ flex: 1 }} />
+        <List
+          sx={{
+            width: "100%",
+            gap: 1.5,
+            display: "flex",
+            flexDirection: "column",
 
+            flex: 1,
+            minHeight: 0, // critical for MUI flex layouts
+            overflowY: "auto", // THIS makes only list scroll
+          }}
+        >
+          <Divider />
+          {creatures.length ? (
+            sortCreatures(creatures).map((creature) => (
+              <ListItem key={creature.id} sx={{ padding: 0 }}>
+                <CreatureInitiativeItem
+                  creature={creature}
+                  onUpdate={onUpdate}
+                  onBlur={handleSaveMetadata}
+                  isActive={activeCreature?.id === creature.id}
+                />
+              </ListItem>
+            ))
+          ) : (
+            <Typography align="center">No Creatures Added Yet</Typography>
+          )}
+        </List>
+      </Container>
       <Divider flexItem />
       <Stack
         direction="row"
@@ -357,7 +366,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         sx={{
           justifyContent: "center",
           flexWrap: "wrap",
-          paddingBottom: 2,
+          py: 2,
         }}
       >
         <IconButton onClick={handleInitiativeBack}>
