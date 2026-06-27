@@ -1,54 +1,12 @@
 import { useEffect, useState, type SyntheticEvent } from "react";
-import { Box, Container, Tab, Tabs, Typography } from "@mui/material";
+import { Container, Tab, Tabs, Typography } from "@mui/material";
 import type { Creature } from "./types/creature";
 import CreatureInitiativeList from "./components/initiative/creatureInitiativeList";
 import OBR from "@owlbear-rodeo/sdk";
-import StatblockList from "./components/statblocks/statblockList";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      style={{
-        flex: 1,
-        display: value === index ? "flex" : "none",
-        flexDirection: "column",
-        minHeight: 0,
-      }}
-      {...other}
-    >
-      <Box
-        sx={{
-          py: 3,
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-          minHeight: 0,
-        }}
-      >
-        {children}
-      </Box>
-    </div>
-  );
-}
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import StatblockSearchList from "./components/statblocks/statblockSearchList";
+import { getPluginId } from "./util/getPluginId";
+import { a11yProps } from "./util/a11yProps";
+import CustomTabPanel from "./components/customTabPanel";
 
 function App() {
   const [sceneReady, setSceneReady] = useState(false);
@@ -63,6 +21,113 @@ function App() {
     OBR.scene.isReady().then(setSceneReady);
     return OBR.scene.onReadyChange(setSceneReady);
   }, []);
+
+  useEffect(() => {
+    if (sceneReady) {
+      // initiative list
+      OBR.contextMenu.create({
+        icons: [
+          {
+            icon: "/plus.svg",
+            label: "Add to Initiative",
+            filter: {
+              every: [
+                { key: "layer", value: "CHARACTER", coordinator: "||" },
+                { key: "layer", value: "MOUNT" },
+                { key: "type", value: "IMAGE" },
+                {
+                  key: ["metadata", getPluginId("initiative/metadata")],
+                  value: undefined,
+                },
+              ],
+              permissions: ["UPDATE"],
+            },
+          },
+          {
+            icon: "/x.svg",
+            label: "Remove from Initiative",
+            filter: {
+              every: [
+                { key: "layer", value: "CHARACTER", coordinator: "||" },
+                { key: "layer", value: "MOUNT" },
+                { key: "type", value: "IMAGE" },
+              ],
+              permissions: ["UPDATE"],
+            },
+          },
+        ],
+        id: getPluginId("menu/toggleInitiative"),
+        onClick(context) {
+          OBR.scene.items.updateItems(context.items, (items) => {
+            const addToInitiative = items.every(
+              (item) =>
+                item.metadata[getPluginId("initiative/metadata")] === undefined,
+            );
+            for (const item of items) {
+              if (addToInitiative) {
+                item.metadata[getPluginId("initiative/metadata")] = {
+                  initiative: 0,
+                };
+              } else {
+                delete item.metadata[getPluginId("initiative/metadata")];
+              }
+            }
+          });
+        },
+      });
+
+      // statblocks list
+
+      OBR.contextMenu.create({
+        icons: [
+          {
+            icon: "/square-user-round.svg",
+            label: "Set Statblock",
+            filter: {
+              every: [
+                { key: "layer", value: "CHARACTER", coordinator: "||" },
+                { key: "layer", value: "MOUNT" },
+                { key: "type", value: "IMAGE" },
+                {
+                  key: ["metadata", getPluginId("creature/metadata")],
+                  value: undefined,
+                },
+              ],
+              permissions: ["UPDATE"],
+            },
+          },
+          {
+            icon: "/square-user-round.svg",
+            label: "View Statblock",
+            filter: {
+              every: [
+                { key: "layer", value: "CHARACTER", coordinator: "||" },
+                { key: "layer", value: "MOUNT" },
+                { key: "type", value: "IMAGE" },
+              ],
+              permissions: ["UPDATE"],
+            },
+          },
+        ],
+        id: getPluginId("menu/setStatblock"),
+        onClick(context) {
+          OBR.popover.open({
+            id: "archon/statblock",
+            url: "/statblocks.html",
+            height: 500,
+            width: 400,
+            disableClickAway: true,
+            anchorElementId: context.items[0].id,
+            anchorPosition: { left: 200, top: 0 },
+            transformOrigin: {
+              horizontal: "RIGHT",
+              vertical: "TOP",
+            },
+          });
+        },
+      });
+    }
+  }, [sceneReady]);
 
   if (!sceneReady) {
     return <Typography>Open a Scene to use Archon</Typography>;
@@ -93,7 +158,7 @@ function App() {
         />
       </CustomTabPanel>
       <CustomTabPanel value={tabValue} index={1}>
-        <StatblockList />
+        <StatblockSearchList />
       </CustomTabPanel>
     </Container>
   );

@@ -75,59 +75,6 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     return OBR.scene.items.onChange(handleItemsChange);
   }, [setCreatures]);
 
-  useEffect(() => {
-    void OBR.contextMenu.create({
-      icons: [
-        {
-          icon: "/plus.svg",
-          label: "Add to Initiative",
-          filter: {
-            every: [
-              { key: "layer", value: "CHARACTER", coordinator: "||" },
-              { key: "layer", value: "MOUNT" },
-              { key: "type", value: "IMAGE" },
-              {
-                key: ["metadata", getPluginId("initiative/metadata")],
-                value: undefined,
-              },
-            ],
-            permissions: ["UPDATE"],
-          },
-        },
-        {
-          icon: "/x.svg",
-          label: "Remove from Initiative",
-          filter: {
-            every: [
-              { key: "layer", value: "CHARACTER", coordinator: "||" },
-              { key: "layer", value: "MOUNT" },
-              { key: "type", value: "IMAGE" },
-            ],
-            permissions: ["UPDATE"],
-          },
-        },
-      ],
-      id: getPluginId("menu/toggleInitiative"),
-      onClick(context) {
-        OBR.scene.items.updateItems(context.items, (items) => {
-          const addToInitiative = items.every(
-            (item) =>
-              item.metadata[getPluginId("initiative/metadata")] === undefined,
-          );
-          for (const item of items) {
-            if (addToInitiative) {
-              item.metadata[getPluginId("initiative/metadata")] = {
-                initiative: 0,
-              };
-            } else {
-              delete item.metadata[getPluginId("initiative/metadata")];
-            }
-          }
-        });
-      },
-    });
-  }, []);
-
   const getCreatureInitiative = (creature: Creature | undefined) => {
     if (!creature) {
       return 0;
