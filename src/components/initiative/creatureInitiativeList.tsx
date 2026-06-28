@@ -22,9 +22,10 @@ import {
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import TempHpIcon from "../TempHpIcon";
 import CreatureInitiativeItem from "./creatureInitiativeItem";
-import type { Creature, CreatureMetadata } from "../../types/creature";
+import type { Creature } from "../../types/creature";
 import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../../util/getPluginId";
+import ItemToCreature from "../../util/itemToCreature";
 import { isPlainObject } from "../../util/isPlainObject";
 
 type CreatureInitiativeListProps = {
@@ -44,28 +45,11 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     const handleItemsChange = async (items: Item[]) => {
       const creatures: Creature[] = [];
       for (const item of items) {
-        if (isImage(item)) {
-          const initiativeMetadata = item.metadata[
-            getPluginId("initiative/metadata")
-          ] as { initiative: number };
-          const creatureMetadata = item.metadata[
-            getPluginId("creature/metadata")
-          ] as CreatureMetadata;
-          if (isPlainObject(initiativeMetadata)) {
-            creatures.push({
-              id: item.id,
-              name: item.text.plainText || item.name,
-              initiative: initiativeMetadata.initiative,
-              initiativeModifier: creatureMetadata?.initiativeModifier ?? 0,
-              isPlayer: false,
-              isVisible: item.visible,
-              maxHp: creatureMetadata?.maxHp ?? 0,
-              currentHp:
-                creatureMetadata?.currentHp ?? creatureMetadata?.maxHp ?? 0,
-              tempHp: creatureMetadata?.tempHp ?? 0,
-              ac: creatureMetadata?.ac ?? 0,
-            });
-          }
+        const initiativeMetadata = item.metadata[
+          getPluginId("initiative/metadata")
+        ] as { initiative: number };
+        if (isPlainObject(initiativeMetadata)) {
+          creatures.push(ItemToCreature(item));
         }
       }
       setCreatures(creatures);

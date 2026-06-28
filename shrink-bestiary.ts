@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const filePath = path.resolve("./src/util/bestiaryShort.json");
+const filePath = path.resolve("./src/util/bestiaryTiny.json");
 
 // Fields to remove from each entry
 const fieldsToRemove: string[] = [
@@ -28,6 +28,11 @@ const fieldsToRemove: string[] = [
   "pbNote",
   "summonedBySpell",
   "summonedBySpellLevel",
+  "summonedByClass",
+  "hasFluff",
+  "soundclip",
+  "treasure",
+  "skill",
   "trait",
   "action",
   "spellcasting",
@@ -38,12 +43,21 @@ const fieldsToRemove: string[] = [
   "bonus",
   "reaction",
   "legendary",
-
+  "immune",
+  "conditionImmune",
+  "resist",
+  "passive",
+  "languages",
+  "vulnerable",
+  "alignment",
+  "srd52",
+  "senses",
 ];
 
 const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+const filtered = data.filter((entry: Record<string, unknown>) => !("reprintedAs" in entry));
 
-const updated = data.map((entry) => {
+const updated = filtered.map((entry) => {
   const cleaned = { ...entry };
   for (const field of fieldsToRemove) {
     delete cleaned[field];

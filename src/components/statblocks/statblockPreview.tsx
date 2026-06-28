@@ -32,12 +32,12 @@ function StatblockPreview(props: StatblockPreviewProps) {
               {creaturePreview.name}
             </Typography>
           </Box>
-          <Box sx={{ width: 60 }}>
+          <Box sx={{ width: 80 }}>
             <Typography onClick={() => onClick(creaturePreview)}>
               CR: {creaturePreview.cr}
             </Typography>
           </Box>
-          <Box sx={{ width: 60 }}>
+          <Box sx={{ width: 80 }}>
             <Typography onClick={() => onClick(creaturePreview)}>
               HP: {creaturePreview.maxHp}
             </Typography>

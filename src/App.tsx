@@ -13,7 +13,7 @@ function App() {
   const [creatures, setCreatures] = useState<Creature[]>([]);
   const [tabValue, setTabValue] = useState(0);
 
-  const handleTabChange = (event: SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
@@ -81,24 +81,8 @@ function App() {
       OBR.contextMenu.create({
         icons: [
           {
-            icon: "/square-user-round.svg",
+            icon: "/user-pen.svg",
             label: "Set Statblock",
-            filter: {
-              every: [
-                { key: "layer", value: "CHARACTER", coordinator: "||" },
-                { key: "layer", value: "MOUNT" },
-                { key: "type", value: "IMAGE" },
-                {
-                  key: ["metadata", getPluginId("creature/metadata")],
-                  value: undefined,
-                },
-              ],
-              permissions: ["UPDATE"],
-            },
-          },
-          {
-            icon: "/square-user-round.svg",
-            label: "View Statblock",
             filter: {
               every: [
                 { key: "layer", value: "CHARACTER", coordinator: "||" },
@@ -111,9 +95,51 @@ function App() {
         ],
         id: getPluginId("menu/setStatblock"),
         onClick(context) {
+          const itemIds = context.items.map((item) => item.id).join(",");
+
           OBR.popover.open({
             id: "archon/statblock",
-            url: "/statblocks.html",
+            url: `/statblocks.html?panel=search&itemIds=${encodeURIComponent(itemIds)}`,
+            height: 500,
+            width: 400,
+            disableClickAway: true,
+            anchorElementId: context.items[0].id,
+            anchorPosition: { left: 200, top: 0 },
+            transformOrigin: {
+              horizontal: "RIGHT",
+              vertical: "TOP",
+            },
+          });
+        },
+      });
+
+      OBR.contextMenu.create({
+        icons: [
+          {
+            icon: "/square-user-round.svg",
+            label: "View Statblock",
+            filter: {
+              every: [
+                { key: "layer", value: "CHARACTER", coordinator: "||" },
+                { key: "layer", value: "MOUNT" },
+                { key: "type", value: "IMAGE" },
+                {
+                  key: ["metadata", getPluginId("creature/metadata")],
+                  value: undefined,
+                  operator: "!=",
+                },
+              ],
+              permissions: ["UPDATE"],
+            },
+          },
+        ],
+        id: getPluginId("menu/viewStatblock"),
+        onClick(context) {
+          const itemIds = context.items[0].id;
+
+          OBR.popover.open({
+            id: "archon/statblock",
+            url: `/statblocks.html?panel=view&itemIds=${encodeURIComponent(itemIds)}`,
             height: 500,
             width: 400,
             disableClickAway: true,
@@ -130,7 +156,11 @@ function App() {
   }, [sceneReady]);
 
   if (!sceneReady) {
-    return <Typography>Open a Scene to use Archon</Typography>;
+    return (
+      <Container sx={{ p: 4 }}>
+        <Typography>Open a Scene to use Archon</Typography>
+      </Container>
+    );
   }
 
   return (

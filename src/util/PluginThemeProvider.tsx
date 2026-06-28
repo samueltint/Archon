@@ -1,8 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import {
-  type Theme as MuiTheme,
-  createTheme,
-} from "@mui/material/styles";
+import { type Theme as MuiTheme, createTheme } from "@mui/material/styles";
 import OBR, { type Theme } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 
@@ -11,6 +8,25 @@ import { useEffect, useState } from "react";
  */
 function getTheme(theme?: Theme) {
   return createTheme({
+    typography: {
+      fontFamily: '"Red Hat Text", serif',
+      fontSize: 18,
+      lineHeight: 1.45,
+      letterSpacing: "0.18px",
+      h1: {
+        fontSize: "56px",
+        fontWeight: 500,
+        letterSpacing: "-1.68px",
+        margin: "32px 0",
+      },
+      h2: {
+        fontSize: "24px",
+        fontWeight: 500,
+        letterSpacing: "-0.24px",
+        margin: "0 0 8px",
+        lineHeight: "118%",
+      },
+    },
     palette: theme
       ? {
           mode: theme.mode === "LIGHT" ? "light" : "dark",

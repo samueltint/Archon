@@ -24,7 +24,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Red Hat Text", "Red Hat Mono", sans-serif',
+    fontFamily: '"Red Hat Text", sans-serif',
     fontSize: 18,
     lineHeight: 1.45,
     letterSpacing: "0.18px",
@@ -91,7 +91,7 @@ export const darkTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Red Hat Text", "Red Hat Mono", serif',
+    fontFamily: '"Red Hat Text", sans-serif',
     fontSize: 18,
     lineHeight: 1.45,
     letterSpacing: "0.18px",
