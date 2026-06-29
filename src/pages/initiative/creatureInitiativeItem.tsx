@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { type Creature } from "../../types/creature";
 import { Card, Divider, Typography } from "@mui/material";
-import InitiativeItemInput from "./initiativeItemInput";
+import ControlledInput from "../../components/controlledInput";
 
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
@@ -33,7 +33,7 @@ export default function CreatureInitiativeItem(props: {
       }}
       variant="outlined"
     >
-      <InitiativeItemInput
+      <ControlledInput
         sx={{ width: "auto" }}
         value={(creature.initiative ?? 0) + (creature.initiativeModifier ?? 0)}
         size="sm"
@@ -46,11 +46,11 @@ export default function CreatureInitiativeItem(props: {
             initiative: initiative - modifier,
           });
         }}
-      ></InitiativeItemInput>
+      ></ControlledInput>
 
       <Divider orientation="vertical" variant="middle" flexItem />
 
-      <InitiativeItemInput
+      <ControlledInput
         size="sm"
         value={creature.name}
         sx={{
@@ -62,11 +62,11 @@ export default function CreatureInitiativeItem(props: {
         onChange={(e) => {
           onUpdate({ ...creature, name: e.target.value });
         }}
-      ></InitiativeItemInput>
+      ></ControlledInput>
 
       <Divider orientation="vertical" variant="middle" flexItem />
 
-      <InitiativeItemInput
+      <ControlledInput
         value={creature.currentHp ?? creature.maxHp ?? 0}
         size="sm"
         onBlur={onBlur}
@@ -76,11 +76,11 @@ export default function CreatureInitiativeItem(props: {
             currentHp: parseInt(e.target.value) || 0,
           });
         }}
-      ></InitiativeItemInput>
+      ></ControlledInput>
 
       <Typography>/</Typography>
 
-      <InitiativeItemInput
+      <ControlledInput
         value={creature.maxHp}
         size="sm"
         onBlur={onBlur}
@@ -90,10 +90,10 @@ export default function CreatureInitiativeItem(props: {
             maxHp: parseInt(e.target.value) || 0,
           });
         }}
-      ></InitiativeItemInput>
+      ></ControlledInput>
       <Divider orientation="vertical" variant="middle" flexItem />
 
-      <InitiativeItemInput
+      <ControlledInput
         value={creature.tempHp ?? 0}
         size="sm"
         sx={{ width: "auto" }}
@@ -104,10 +104,10 @@ export default function CreatureInitiativeItem(props: {
             tempHp: parseInt(e.target.value) || 0,
           });
         }}
-      ></InitiativeItemInput>
+      ></ControlledInput>
 
       <Divider orientation="vertical" variant="middle" flexItem />
-      <InitiativeItemInput
+      <ControlledInput
         value={creature.ac ?? 0}
         size="sm"
         sx={{ width: "auto" }}
@@ -118,7 +118,7 @@ export default function CreatureInitiativeItem(props: {
             ac: parseInt(e.target.value),
           });
         }}
-      ></InitiativeItemInput>
+      ></ControlledInput>
     </Card>
   );
 }

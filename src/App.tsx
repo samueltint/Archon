@@ -1,9 +1,9 @@
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { Container, Tab, Tabs, Typography } from "@mui/material";
 import type { Creature } from "./types/creature";
-import CreatureInitiativeList from "./components/initiative/creatureInitiativeList";
+import CreatureInitiativeList from "./pages/initiative/creatureInitiativeList";
 import OBR from "@owlbear-rodeo/sdk";
-import StatblockSearchList from "./components/statblocks/statblockSearchList";
+import StatblockSearchList from "./pages/statblocks/statblockSearchList";
 import { getPluginId } from "./util/getPluginId";
 import { a11yProps } from "./util/a11yProps";
 import CustomTabPanel from "./components/customTabPanel";
@@ -99,7 +99,7 @@ function App() {
 
           OBR.popover.open({
             id: "archon/statblock",
-            url: `/statblocks.html?panel=search&itemIds=${encodeURIComponent(itemIds)}`,
+            url: `/?panel=searchStatblocks&itemIds=${encodeURIComponent(itemIds)}`,
             height: 500,
             width: 400,
             disableClickAway: true,
@@ -139,7 +139,7 @@ function App() {
 
           OBR.popover.open({
             id: "archon/statblock",
-            url: `/statblocks.html?panel=view&itemIds=${encodeURIComponent(itemIds)}`,
+            url: `/?panel=viewStatblocks&itemIds=${encodeURIComponent(itemIds)}`,
             height: 500,
             width: 400,
             disableClickAway: true,

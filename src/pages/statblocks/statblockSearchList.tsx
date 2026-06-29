@@ -17,10 +17,10 @@ import { Search } from "@mui/icons-material";
 import type { CreaturePreview } from "../../types/creature";
 import query from "../../util/query";
 import type { Monster } from "../../types/5eToolsMonster";
-import StatblockPreview from "./statblockPreview";
+import StatblockSearchItem from "./statblockSearchItem";
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../../util/getPluginId";
-import statToModifier from "../../util/statToModifier";
+import statToMod from "../../util/statToModifier";
 
 // Cache the bestiary after first load so subsequent searches are instant
 let bestiaryCache: unknown = null;
@@ -118,7 +118,7 @@ function StatblockSearchList() {
             ac: creature.ac,
             stats: creature.stats,
             cr: creature.cr,
-            initiativeModifier: statToModifier(creature?.stats?.dex ?? 10),
+            initiativeModifier: statToMod(creature?.stats?.dex ?? 10),
           };
           i++;
         }
@@ -188,7 +188,7 @@ function StatblockSearchList() {
         ) : (
           filteredCreatures.map((c: CreaturePreview) => {
             return (
-              <StatblockPreview
+              <StatblockSearchItem
                 creaturePreview={c}
                 onClick={handlePreviewClick}
               />

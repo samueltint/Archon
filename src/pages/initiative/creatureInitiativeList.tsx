@@ -20,12 +20,12 @@ import {
   Container,
 } from "@mui/material";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import TempHpIcon from "../TempHpIcon";
+import TempHpIcon from "../../components/TempHpIcon";
 import CreatureInitiativeItem from "./creatureInitiativeItem";
 import type { Creature } from "../../types/creature";
 import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../../util/getPluginId";
-import ItemToCreature from "../../util/itemToCreature";
+import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import { isPlainObject } from "../../util/isPlainObject";
 
 type CreatureInitiativeListProps = {
@@ -157,20 +157,8 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         const creature = creatures.find((creature) => creature.id === item.id);
 
         if (creature == undefined) continue;
-        if ((creature.currentHp ?? 0) > (creature.maxHp ?? 0)) {
-          creature.currentHp = creature.maxHp;
-        }
-        item.name = creature.name;
-        item.metadata[getPluginId("creature/metadata")] = {
-          maxHp: creature.maxHp,
-          currentHp: creature.currentHp,
-          tempHp: creature.tempHp,
-          ac: creature.ac,
-          initiativeModifier: creature.initiativeModifier,
-        };
-        item.metadata[getPluginId("initiative/metadata")] = {
-          initiative: creature.initiative,
-        };
+
+        CreatureToItem(item, creature, true);
       }
     });
   };

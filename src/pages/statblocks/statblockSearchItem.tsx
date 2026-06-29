@@ -6,7 +6,7 @@ type StatblockPreviewProps = {
   onClick: (creature: CreaturePreview) => void;
 };
 
-function StatblockPreview(props: StatblockPreviewProps) {
+function StatblockSearchItem(props: StatblockPreviewProps) {
   const { creaturePreview, onClick } = props;
 
   return (
@@ -48,4 +48,4 @@ function StatblockPreview(props: StatblockPreviewProps) {
   );
 }
 
-export default StatblockPreview;
+export default StatblockSearchItem;
