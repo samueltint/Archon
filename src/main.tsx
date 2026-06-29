@@ -5,7 +5,9 @@ import "./index.css";
 import { PluginGate } from "./util/PluginGate";
 import { PluginThemeProvider } from "./util/PluginThemeProvider";
 import App from "./App";
-import StatblocksApp from "./pages/statblocks/StatblocksApp";
+import PopoverBase from "./components/popoverBase";
+import StatblockSearchList from "./pages/statblockSearch/statblockSearchList";
+import StatblockView from "./pages/statblockView/statblockView";
 
 const getPage = () => {
   const params = new URLSearchParams(window.location.search);
@@ -20,9 +22,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         {getPage() == 0 ? (
           <App />
         ) : getPage() == 1 ? (
-          <StatblocksApp />
+          <PopoverBase popoverId="archon/statblock" title="Search Statblock">
+            <StatblockSearchList />
+          </PopoverBase>
         ) : (
-          <StatblocksApp />
+          <PopoverBase popoverId="archon/statblock" title="View Statblock">
+            <StatblockView />
+          </PopoverBase>
         )}
       </PluginThemeProvider>
     </PluginGate>

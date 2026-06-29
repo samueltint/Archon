@@ -3,7 +3,7 @@ import { Container, Tab, Tabs, Typography } from "@mui/material";
 import type { Creature } from "./types/creature";
 import CreatureInitiativeList from "./pages/initiative/creatureInitiativeList";
 import OBR from "@owlbear-rodeo/sdk";
-import StatblockSearchList from "./pages/statblocks/statblockSearchList";
+import StatblockSearchList from "./pages/statblockSearch/statblockSearchList";
 import { getPluginId } from "./util/getPluginId";
 import { a11yProps } from "./util/a11yProps";
 import CustomTabPanel from "./components/customTabPanel";

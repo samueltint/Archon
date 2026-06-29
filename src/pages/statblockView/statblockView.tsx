@@ -2,6 +2,9 @@ import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { Creature, CreatureStats } from "../../types/creature";
 import { statToModStr } from "../../util/statToModifier";
 import ControlledInput from "../../components/controlledInput";
+import { useEffect, useState } from "react";
+import { ItemToCreature } from "../../util/itemToCreature";
+import OBR from "@owlbear-rodeo/sdk";
 
 function StatElements(props: { stats: CreatureStats }) {
   // return JSON.stringify(Object.entries(props.stats));
@@ -21,9 +24,20 @@ function StatElements(props: { stats: CreatureStats }) {
   ));
 }
 
-function Statblock(props: { creature: Creature }) {
-  const { creature } = props;
+function StatblockView() {
+  const [creature, setCreature] = useState<Creature>();
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ids = params.get("itemIds");
+    const itemIds = ids ? ids.split(",").map(decodeURIComponent) : [];
 
+    if (itemIds.length === 0) return;
+
+    // OBR.scene.items.getItems(itemIds).then(setItems);
+    OBR.scene.items.getItems(itemIds).then((items) => {
+      setCreature(items.map(ItemToCreature)[0]);
+    });
+  }, []);
   // const handleSaveMetadata = () => {
   //   OBR.scene.items.updateItems(isImage, (items) => {
   //     for (const item of items) {
@@ -113,4 +127,4 @@ function Statblock(props: { creature: Creature }) {
   );
 }
 
-export default Statblock;
+export default StatblockView;
