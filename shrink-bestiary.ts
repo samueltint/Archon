@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const filePath = path.resolve("./src/util/bestiaryTiny.json");
+const filePath = path.resolve("./src/util/bestiaryShort.json");
 
 // Fields to remove from each entry
 const fieldsToRemove: string[] = [
@@ -32,26 +32,26 @@ const fieldsToRemove: string[] = [
   "hasFluff",
   "soundclip",
   "treasure",
-  "skill",
-  "trait",
-  "action",
-  "spellcasting",
   "_mod",
   "hasFluffImages",
   "_versions",
   "foundryTokenScale",
-  "bonus",
-  "reaction",
-  "legendary",
-  "immune",
-  "conditionImmune",
-  "resist",
-  "passive",
-  "languages",
-  "vulnerable",
-  "alignment",
   "srd52",
-  "senses",
+  // "skill",
+  // "trait",
+  // "action",
+  // "spellcasting",
+  // "bonus",
+  // "reaction",
+  // "legendary",
+  // "immune",
+  // "conditionImmune",
+  // "resist",
+  // "passive",
+  // "languages",
+  // "vulnerable",
+  // "alignment",
+  // "senses",
 ];
 
 const data = JSON.parse(fs.readFileSync(filePath, "utf8"));

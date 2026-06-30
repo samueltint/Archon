@@ -3,52 +3,87 @@ import type { Creature, CreatureStats } from "../../types/creature";
 import { statToModStr } from "../../util/statToModifier";
 import ControlledInput from "../../components/controlledInput";
 import { useEffect, useState } from "react";
-import { ItemToCreature } from "../../util/itemToCreature";
-import OBR from "@owlbear-rodeo/sdk";
+import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
+import OBR, { isImage } from "@owlbear-rodeo/sdk";
 
-function StatElements(props: { stats: CreatureStats }) {
-  // return JSON.stringify(Object.entries(props.stats));
-  return Object.entries(props.stats).map(([key, value]) => (
+function StatElements(props: {
+  stats: CreatureStats;
+  onBlur: () => void;
+  onStatUpdate: (field: keyof CreatureStats, value: number) => void;
+}) {
+  const { stats, onBlur, onStatUpdate } = props;
+  return Object.entries(stats).map(([key, value]) => (
     <Grid
       key={key}
       size={2}
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <Typography variant="body2">{key.toLocaleUpperCase()}</Typography>
-      <ControlledInput value={value} size="xs" />
+      <Stack sx={{ alignItems: "center", gap: .5}}>
+        <Typography variant="body2">{key.toLocaleUpperCase()}</Typography>
+        <ControlledInput
+          value={value}
+          size="sm"
+          onBlur={onBlur}
+          onChange={(e) =>
+            onStatUpdate(key as keyof CreatureStats, Number(e.target.value))
+          }
+        />
 
-      <Typography sx={{ fontSize: 16 }}>
-        ({statToModStr(value as number)}){" "}
-      </Typography>
+        <Typography sx={{ fontSize: 16 }}>
+          ({statToModStr(value as number)})
+        </Typography>
+      </Stack>
     </Grid>
   ));
 }
 
 function StatblockView() {
-  const [creature, setCreature] = useState<Creature>();
+  const [state, setState] = useState<{ creature?: Creature; itemId?: string }>(
+    {},
+  );
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const ids = params.get("itemIds");
-    const itemIds = ids ? ids.split(",").map(decodeURIComponent) : [];
+    const idString = params.get("itemIds");
+    const itemIds = idString ? idString.split(",").map(decodeURIComponent) : [];
 
     if (itemIds.length === 0) return;
 
-    // OBR.scene.items.getItems(itemIds).then(setItems);
     OBR.scene.items.getItems(itemIds).then((items) => {
-      setCreature(items.map(ItemToCreature)[0]);
+      setState({ itemId: itemIds[0], creature: items.map(ItemToCreature)[0] });
     });
   }, []);
-  // const handleSaveMetadata = () => {
-  //   OBR.scene.items.updateItems(isImage, (items) => {
-  //     for (const item of items) {
-  //       const creature = creatures.find((creature) => creature.id === item.id);
 
-  //       if (creature == undefined) continue;
+  const { creature, itemId } = state;
 
-  //       CreatureToItem(item, creature, true);
-  //     }
-  //   });
-  // };
+  const onUpdate = <K extends keyof Creature>(field: K, value: Creature[K]) => {
+    setState((prev) =>
+      prev.creature
+        ? { ...prev, creature: { ...prev.creature, [field]: value } }
+        : prev,
+    );
+  };
+
+  const onStatUpdate = (field: keyof CreatureStats, value: number) => {
+    const newStats = { ...creature?.stats };
+    newStats[field] = value;
+    setState((prev) =>
+      prev.creature
+        ? { ...prev, creature: { ...prev.creature, stats: newStats } }
+        : prev,
+    );
+  };
+
+  const handleSaveMetadata = () => {
+    if (!itemId || !creature) return;
+    OBR.scene.items.updateItems(isImage, (items) => {
+      for (const item of items) {
+        if (item.id == itemId) {
+          CreatureToItem(item, creature, false);
+        }
+      }
+    });
+  };
 
   return (
     <Box
@@ -65,7 +100,13 @@ function StatblockView() {
       ) : (
         <Grid container spacing={1}>
           <Grid size={12}>
-            <ControlledInput value={creature.name} size="xl" textAlign="left" />
+            <ControlledInput
+              value={creature.name}
+              size="xl"
+              textAlign="left"
+              onChange={(e) => onUpdate("name", e.target.value)}
+              onBlur={handleSaveMetadata}
+            />
           </Grid>
           <Grid size={12}>
             <Divider />
@@ -81,9 +122,21 @@ function StatblockView() {
             <Stack spacing={1} sx={{ display: "flex", alignItems: "center" }}>
               <Typography>HP</Typography>
               <Stack direction="row" spacing={1}>
-                <ControlledInput value={creature.currentHp} size="md" />
+                <ControlledInput
+                  value={creature.currentHp}
+                  size="md"
+                  onChange={(e) =>
+                    onUpdate("currentHp", Number(e.target.value))
+                  }
+                  onBlur={handleSaveMetadata}
+                />
                 <Typography>/</Typography>
-                <ControlledInput value={creature.maxHp} size="md" />
+                <ControlledInput
+                  value={creature.maxHp}
+                  size="md"
+                  onChange={(e) => onUpdate("maxHp", Number(e.target.value))}
+                  onBlur={handleSaveMetadata}
+                />
               </Stack>
             </Stack>
           </Grid>
@@ -97,7 +150,12 @@ function StatblockView() {
           >
             <Stack spacing={1} sx={{ display: "flex", alignItems: "center" }}>
               <Typography>AC</Typography>
-              <ControlledInput value={creature.ac} size="md" />
+              <ControlledInput
+                value={creature.ac}
+                size="md"
+                onChange={(e) => onUpdate("ac", Number(e.target.value))}
+                onBlur={handleSaveMetadata}
+              />
             </Stack>
           </Grid>
           <Grid
@@ -110,13 +168,26 @@ function StatblockView() {
           >
             <Stack spacing={1} sx={{ display: "flex", alignItems: "center" }}>
               <Typography>Initiative</Typography>
-              <ControlledInput value={creature.initiativeModifier} size="md" />
+              <ControlledInput
+                value={creature.initiativeModifier}
+                size="md"
+                onChange={(e) =>
+                  onUpdate("initiativeModifier", Number(e.target.value))
+                }
+                onBlur={handleSaveMetadata}
+              />
             </Stack>
           </Grid>
           <Grid size={12}>
             <Divider />
           </Grid>
-          {creature.stats && <StatElements stats={creature.stats} />}
+          {creature.stats && (
+            <StatElements
+              stats={creature.stats}
+              onBlur={handleSaveMetadata}
+              onStatUpdate={onStatUpdate}
+            />
+          )}
           <Grid size={12}>
             <Divider />
           </Grid>
