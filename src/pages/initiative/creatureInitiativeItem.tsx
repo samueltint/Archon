@@ -6,11 +6,14 @@ import ControlledInput from "../../components/controlledInput";
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
   onUpdate: (creature: Creature) => void;
-  onBlur: () => void;
+  handleMetadataUpdate: (creature: Creature) => void;
   isActive: boolean;
 }) {
-  const { creature, onUpdate, onBlur, isActive } = props;
+  const { creature, onUpdate, handleMetadataUpdate, isActive } = props;
 
+  const onBlur = () => {
+    handleMetadataUpdate(creature);
+  };
   useEffect(() => {
     if (creature.currentHp == null) {
       onUpdate({
@@ -119,6 +122,8 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></ControlledInput>
+
+      <Typography>{creature.allTraits == undefined && "True"}</Typography>
     </Card>
   );
 }

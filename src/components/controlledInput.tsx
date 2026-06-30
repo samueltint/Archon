@@ -28,7 +28,7 @@ const sizeConfig: Record<
   },
   md: { height: 36, width: "50px", fontSize: "1rem", padding: "6px" },
   lg: { height: 44, width: "80px", fontSize: "1rem", padding: "8px" },
-  xl: { height: 52, width: "300px", fontSize: "1.3rem", padding: "10px" },
+  xl: { height: 52, width: "full", fontSize: "1.3rem", padding: "10px" },
 };
 
 const ControlledInput = (

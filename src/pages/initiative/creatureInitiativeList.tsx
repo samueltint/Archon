@@ -49,7 +49,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           getPluginId("initiative/metadata")
         ] as { initiative: number };
         if (isPlainObject(initiativeMetadata)) {
-          creatures.push(ItemToCreature(item));
+          creatures.push(ItemToCreature(item, initiativeMetadata.initiative));
         }
       }
       setCreatures(creatures);
@@ -151,14 +151,11 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     );
   };
 
-  const handleSaveMetadata = () => {
+  const handleSaveMetadata = (creature: Creature) => {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
-        const creature = creatures.find((creature) => creature.id === item.id);
-
-        if (creature == undefined) continue;
-
-        CreatureToItem(item, creature, true);
+        if (item.id !== creature.id) continue;
+        CreatureToItem(item, creature, true, true);
       }
     });
   };
@@ -268,7 +265,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
                 <CreatureInitiativeItem
                   creature={creature}
                   onUpdate={onUpdate}
-                  onBlur={handleSaveMetadata}
+                  handleMetadataUpdate={handleSaveMetadata}
                   isActive={activeCreature?.id === creature.id}
                 />
               </ListItem>

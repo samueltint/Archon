@@ -1,41 +1,11 @@
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { Creature, CreatureStats } from "../../types/creature";
-import { statToModStr } from "../../util/statToModifier";
 import ControlledInput from "../../components/controlledInput";
 import { useEffect, useState } from "react";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
-
-function StatElements(props: {
-  stats: CreatureStats;
-  onBlur: () => void;
-  onStatUpdate: (field: keyof CreatureStats, value: number) => void;
-}) {
-  const { stats, onBlur, onStatUpdate } = props;
-  return Object.entries(stats).map(([key, value]) => (
-    <Grid
-      key={key}
-      size={2}
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      <Stack sx={{ alignItems: "center", gap: .5}}>
-        <Typography variant="body2">{key.toLocaleUpperCase()}</Typography>
-        <ControlledInput
-          value={value}
-          size="sm"
-          onBlur={onBlur}
-          onChange={(e) =>
-            onStatUpdate(key as keyof CreatureStats, Number(e.target.value))
-          }
-        />
-
-        <Typography sx={{ fontSize: 16 }}>
-          ({statToModStr(value as number)})
-        </Typography>
-      </Stack>
-    </Grid>
-  ));
-}
+import StatsTable from "./statsTable";
+import EntryTable from "./entryTable";
 
 function StatblockView() {
   const [state, setState] = useState<{ creature?: Creature; itemId?: string }>(
@@ -79,7 +49,7 @@ function StatblockView() {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (item.id == itemId) {
-          CreatureToItem(item, creature, false);
+          CreatureToItem(item, creature, false, true);
         }
       }
     });
@@ -182,7 +152,7 @@ function StatblockView() {
             <Divider />
           </Grid>
           {creature.stats && (
-            <StatElements
+            <StatsTable
               stats={creature.stats}
               onBlur={handleSaveMetadata}
               onStatUpdate={onStatUpdate}
@@ -191,9 +161,19 @@ function StatblockView() {
           <Grid size={12}>
             <Divider />
           </Grid>
+          {creature.allTraits && (
+            <>
+              <Grid size={12}>
+                <EntryTable CreatureTraits={creature.allTraits} />
+              </Grid>
+              <Grid size={12}>
+                <Divider />
+              </Grid>
+            </>
+          )}
         </Grid>
       )}
-      {JSON.stringify(creature, null, 2)}
+      <Box sx={{ py: 2 }}>{JSON.stringify(creature, null, 2)}</Box>
     </Box>
   );
 }

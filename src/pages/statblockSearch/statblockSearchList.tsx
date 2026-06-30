@@ -14,19 +14,20 @@ import {
 // bestiaryJson is loaded lazily on first search to avoid blocking initial render
 import { useState } from "react";
 import { Search } from "@mui/icons-material";
-import type { CreaturePreview } from "../../types/creature";
+import type { Creature } from "../../types/creature";
 import query from "../../util/query";
 import type { Monster } from "../../types/5eToolsMonster";
 import StatblockSearchItem from "./statblockSearchItem";
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
-import { getPluginId } from "../../util/getPluginId";
-import statToMod from "../../util/statToModifier";
+import { CreatureToItem } from "../../util/itemToCreature";
 
 // Cache the bestiary after first load so subsequent searches are instant
 let bestiaryCache: unknown = null;
 
-function monsterToCreaturePreview(monster: Monster) {
+function monsterToCreature(monster: Monster) {
   return {
+    isVisible: true,
+    isPlayer: false,
     name: monster.name,
     slug: monster.slug,
     maxHp: monster.hp.average,
@@ -39,6 +40,13 @@ function monsterToCreaturePreview(monster: Monster) {
       int: monster.int,
       wis: monster.wis,
       cha: monster.cha,
+    },
+    allTraits: {
+      traits: monster.trait,
+      actions: monster.action,
+      bonusActions: monster.bonus,
+      reactions: monster.reaction,
+      legendaryActions: monster.legendary,
     },
   };
 }
@@ -63,10 +71,8 @@ function parseSimpleValue(value: unknown): number {
 
 function StatblockSearchList() {
   const [searchValue, setSearchValue] = useState("");
-  const [filteredCreatures, setFilteredCreatures] = useState<CreaturePreview[]>(
-    [],
-  );
-  const [creature, setCreature] = useState<CreaturePreview>();
+  const [filteredCreatures, setFilteredCreatures] = useState<Creature[]>([]);
+  const [creature, setCreature] = useState<Creature>();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -77,7 +83,7 @@ function StatblockSearchList() {
 
     // Lazy-load the bestiary only when first search is triggered
     if (!bestiaryCache) {
-      const mod = await import("../../util/bestiaryTiny.json");
+      const mod = await import("../../util/bestiaryShort.json");
       bestiaryCache = mod.default;
     }
 
@@ -86,13 +92,13 @@ function StatblockSearchList() {
       `filter(regex(.name, "${searchValue}", "i")) `,
     );
     const newCreatures = output.map((c: Monster) => {
-      return monsterToCreaturePreview(c);
+      return monsterToCreature(c);
     });
     setFilteredCreatures(newCreatures ?? []);
     setIsLoading(false);
   }
 
-  async function handlePreviewClick(creature: CreaturePreview) {
+  async function handlePreviewClick(creature: Creature) {
     const ids = await OBR.player.getSelection();
     if (!ids) {
       OBR.notification.show("Select some items to assign statblocks.", "ERROR");
@@ -113,13 +119,8 @@ function StatblockSearchList() {
       let i = 0;
       for (const item of items) {
         if (selectedIds.includes(item.id)) {
-          item.metadata[getPluginId("creature/metadata")] = {
-            maxHp: creature.maxHp,
-            ac: creature.ac,
-            stats: creature.stats,
-            cr: creature.cr,
-            initiativeModifier: statToMod(creature?.stats?.dex ?? 10),
-          };
+          CreatureToItem(item, creature, false, false);
+
           i++;
         }
       }
@@ -186,12 +187,9 @@ function StatblockSearchList() {
         {isLoading ? (
           <CircularProgress sx={{ mt: 4 }} />
         ) : (
-          filteredCreatures.map((c: CreaturePreview) => {
+          filteredCreatures.map((c: Creature) => {
             return (
-              <StatblockSearchItem
-                creaturePreview={c}
-                onClick={handlePreviewClick}
-              />
+              <StatblockSearchItem creature={c} onClick={handlePreviewClick} />
             );
           })
         )}

@@ -1,14 +1,7 @@
-export interface CreaturePreview {
-  name: string;
-  slug: string;
-  maxHp?: number;
-  ac?: number;
-  stats?: CreatureStats;
-  cr?: number;
-}
+import type { EntryBlock } from "./5eToolsMonster";
 
 export interface Creature extends CreatureMetadata {
-  id: string | number;
+  id?: string | number;
   slug?: string;
   name: string;
   isVisible: boolean;
@@ -24,7 +17,7 @@ export interface CreatureMetadata {
   ac?: number;
   initiativeModifier?: number;
   stats?: CreatureStats;
-  actions?: CreatureActions;
+  allTraits?: CreatureTraits;
 }
 
 export type CreatureStats = {
@@ -36,11 +29,10 @@ export type CreatureStats = {
   cha?: number;
 };
 
-export type CreatureActions = {
-  actions?: string;
-  bonusActions?: string;
-  reactions?: string;
-  legendaryActions?: string;
-  mythicActions?: string;
-  lairActions?: string;
+export type CreatureTraits = {
+  traits?: EntryBlock[];
+  actions?: EntryBlock[];
+  bonusActions?: EntryBlock[];
+  reactions?: EntryBlock[];
+  legendaryActions?: EntryBlock[];
 };

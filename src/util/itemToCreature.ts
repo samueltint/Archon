@@ -20,6 +20,7 @@ function ItemToCreature(item: Item, initiative?: number) {
     tempHp: creatureMetadata?.tempHp ?? 0,
     ac: creatureMetadata?.ac ?? 0,
     stats: creatureMetadata?.stats,
+    allTraits: creatureMetadata?.allTraits,
   } as Creature;
 }
 
@@ -27,18 +28,24 @@ function CreatureToItem(
   item: Item,
   creature: Creature,
   updateInitiative?: boolean,
+  updateName?: boolean,
 ): void {
   if ((creature.currentHp ?? 0) > (creature.maxHp ?? 0)) {
     creature.currentHp = creature.maxHp;
   }
 
-  item.name = creature.name;
+  if (updateName) {
+    item.name = creature.name;
+  }
+  
   item.metadata[getPluginId("creature/metadata")] = {
     maxHp: creature.maxHp,
     currentHp: creature.currentHp,
     tempHp: creature.tempHp,
     ac: creature.ac,
     initiativeModifier: creature.initiativeModifier,
+    stats: creature.stats,
+    allTraits: creature.allTraits,
   };
 
   if (updateInitiative) {
