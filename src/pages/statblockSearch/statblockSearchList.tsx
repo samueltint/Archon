@@ -116,15 +116,12 @@ function StatblockSearchList() {
     }
 
     OBR.scene.items.updateItems(isImage, (items) => {
-      let i = 0;
       for (const item of items) {
         if (selectedIds.includes(item.id)) {
           CreatureToItem(item, creature, false, false);
 
-          i++;
         }
       }
-      OBR.notification.show(`Updated ${i} Tokens`);
     });
   }
 

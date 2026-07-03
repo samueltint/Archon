@@ -122,8 +122,6 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></ControlledInput>
-
-      <Typography>{creature.allTraits == undefined && "True"}</Typography>
     </Card>
   );
 }

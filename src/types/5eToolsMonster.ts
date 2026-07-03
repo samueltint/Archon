@@ -1,4 +1,3 @@
-
 export interface Monster {
   name: string;
   source: string;
@@ -75,8 +74,11 @@ export interface MonsterType {
 }
 
 export interface EntryBlock {
+  type?: "list" | "item" | "itemSub" | "entries" | "spellcasting";
+  style?: string;
   name: string;
-  entries: string[];
+  entry?: string;
+  entries?: (string | EntryBlock)[];
 }
 
 export interface Spellcasting {

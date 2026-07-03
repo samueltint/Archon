@@ -26,8 +26,6 @@ export const theme = createTheme({
   typography: {
     fontFamily: '"Red Hat Text", sans-serif',
     fontSize: 18,
-    lineHeight: 1.45,
-    letterSpacing: "0.18px",
     h1: {
       fontSize: "56px",
       fontWeight: 500,
@@ -93,8 +91,6 @@ export const darkTheme = createTheme({
   typography: {
     fontFamily: '"Red Hat Text", sans-serif',
     fontSize: 18,
-    lineHeight: 1.45,
-    letterSpacing: "0.18px",
     h1: {
       fontSize: "56px",
       fontWeight: 500,

@@ -1,7 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material";
-import type { EntryBlock } from "../../types/5eToolsMonster";
 import type { CreatureTraits } from "../../types/creature";
-import ParseTags from "../../util/ParseTags";
+import ParsedEntry from "../../util/ParsedEntry";
 
 export default function EntryTable(props: {
   CreatureTraits: CreatureTraits;
@@ -10,8 +9,8 @@ export default function EntryTable(props: {
 }) {
   const { CreatureTraits } = props;
   const titles = [
-    "Traits",
     "Actions",
+    "Traits",
     "Bonus Actions",
     "Reactions",
     "Legendary Actions",
@@ -31,9 +30,9 @@ export default function EntryTable(props: {
               component="span"
               sx={{ fontWeight: "900" }}
             >
-              {entryBlock.name}
-            </Typography>{" "}
-            - {ParseTags(entryBlock.entries)}
+              {entryBlock.name + " - "}
+            </Typography>
+            {ParsedEntry(entryBlock.entries ?? entryBlock.entry ?? "")}
           </Typography>
         ))}
       </Stack>

@@ -162,18 +162,12 @@ function StatblockView() {
             <Divider />
           </Grid>
           {creature.allTraits && (
-            <>
-              <Grid size={12}>
-                <EntryTable CreatureTraits={creature.allTraits} />
-              </Grid>
-              <Grid size={12}>
-                <Divider />
-              </Grid>
-            </>
+            <Grid size={12}>
+              <EntryTable CreatureTraits={creature.allTraits} />
+            </Grid>
           )}
         </Grid>
       )}
-      <Box sx={{ py: 2 }}>{JSON.stringify(creature, null, 2)}</Box>
     </Box>
   );
 }
