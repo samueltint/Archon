@@ -5,7 +5,7 @@ export type InputSize = "xs" | "sm" | "md" | "lg" | "xl";
 const sizeConfig: Record<
   InputSize,
   {
-    height: number;
+    height: string;
     width: string;
     fontSize: string;
     padding: string;
@@ -13,22 +13,40 @@ const sizeConfig: Record<
   }
 > = {
   xs: {
-    height: 25,
+    height: "25px",
     width: "25px",
     fontSize: "0.7rem",
     padding: "0px",
     borderRadius: 0.5,
   },
   sm: {
-    height: 28,
+    height: "25px",
     width: "40px",
     fontSize: "0.75rem",
     padding: "4px",
     borderRadius: 0.5,
   },
-  md: { height: 36, width: "50px", fontSize: "1rem", padding: "6px" },
-  lg: { height: 44, width: "80px", fontSize: "1rem", padding: "8px" },
-  xl: { height: 52, width: "full", fontSize: "1.3rem", padding: "10px" },
+  md: {
+    height: "36px",
+    width: "50px",
+    fontSize: "1rem",
+    padding: "6px",
+    borderRadius: 0.5,
+  },
+  lg: {
+    height: "44px",
+    width: "80px",
+    fontSize: "1rem",
+    padding: "8px",
+    borderRadius: 0.5,
+  },
+  xl: {
+    height: "52px",
+    width: "full",
+    fontSize: "1.3rem",
+    padding: "10px",
+    borderRadius: 0.5,
+  },
 };
 
 const ControlledInput = (

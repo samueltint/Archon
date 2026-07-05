@@ -179,6 +179,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           display: "flex",
           flexDirection: "column",
           minHeight: 0,
+          px: 1,
         }}
       >
         {/* Table Header */}
@@ -195,7 +196,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           >
             <Box
               sx={{
-                width: "40px",
+                width: "25px",
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -226,7 +227,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             <Divider orientation="vertical" flexItem />
             <Box
               sx={{
-                width: "40px",
+                width: "25px",
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -237,13 +238,19 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             <Divider orientation="vertical" flexItem />
             <Box
               sx={{
-                width: "40px",
+                width: "25px",
                 display: "flex",
                 justifyContent: "center",
               }}
             >
               <Shield fontSize="small" color="primary" />
             </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box
+              sx={{
+                width: "24px",
+              }}
+            ></Box>
           </Box>
         </ListItem>
         <List

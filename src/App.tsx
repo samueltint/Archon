@@ -96,10 +96,13 @@ function App() {
         id: getPluginId("menu/setStatblock"),
         onClick(context) {
           const itemIds = context.items.map((item) => item.id).join(",");
-
+          const searchQuery =
+            context.items.length == 1
+              ? `&searchQuery=${context.items[0].name.replace(" ", "+")}`
+              : "";
           OBR.popover.open({
             id: "archon/statblock",
-            url: `/?panel=searchStatblocks&itemIds=${encodeURIComponent(itemIds)}`,
+            url: `/?panel=searchStatblocks${searchQuery}&itemIds=${encodeURIComponent(itemIds)}`,
             height: 500,
             width: 400,
             disableClickAway: true,
@@ -139,7 +142,7 @@ function App() {
 
           OBR.popover.open({
             id: "archon/statblock",
-            url: `/?panel=viewStatblocks&itemIds=${encodeURIComponent(itemIds)}`,
+            url: `/?panel=viewStatblock&itemIds=${encodeURIComponent(itemIds)}`,
             height: 500,
             width: 400,
             disableClickAway: true,

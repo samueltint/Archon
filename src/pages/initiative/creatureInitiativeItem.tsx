@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { type Creature } from "../../types/creature";
-import { Card, Divider, Typography } from "@mui/material";
+import { Card, Divider, IconButton, Typography } from "@mui/material";
 import ControlledInput from "../../components/controlledInput";
+import { Settings } from "@mui/icons-material";
+import OBR from "@owlbear-rodeo/sdk";
 
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
@@ -14,6 +16,18 @@ export default function CreatureInitiativeItem(props: {
   const onBlur = () => {
     handleMetadataUpdate(creature);
   };
+
+  const handleSettingsClick = () => {
+    if (creature.id) {
+      OBR.modal.open({
+        id: "archon/settings",
+        url: `/?panel=creatureSettings&itemIds=${encodeURIComponent(creature.id)}`,
+        height: 300,
+        width: 300,
+      });
+    }
+  };
+
   useEffect(() => {
     if (creature.currentHp == null) {
       onUpdate({
@@ -39,7 +53,7 @@ export default function CreatureInitiativeItem(props: {
       <ControlledInput
         sx={{ width: "auto" }}
         value={(creature.initiative ?? 0) + (creature.initiativeModifier ?? 0)}
-        size="sm"
+        size="xs"
         onBlur={onBlur}
         onChange={(e) => {
           const initiative = parseInt(e.target.value) || 0;
@@ -81,7 +95,7 @@ export default function CreatureInitiativeItem(props: {
         }}
       ></ControlledInput>
 
-      <Typography>/</Typography>
+      <Typography sx={{ fontSize: "1rem" }}>/</Typography>
 
       <ControlledInput
         value={creature.maxHp}
@@ -98,7 +112,7 @@ export default function CreatureInitiativeItem(props: {
 
       <ControlledInput
         value={creature.tempHp ?? 0}
-        size="sm"
+        size="xs"
         sx={{ width: "auto" }}
         onBlur={onBlur}
         onChange={(e) => {
@@ -112,7 +126,7 @@ export default function CreatureInitiativeItem(props: {
       <Divider orientation="vertical" variant="middle" flexItem />
       <ControlledInput
         value={creature.ac ?? 0}
-        size="sm"
+        size="xs"
         sx={{ width: "auto" }}
         onBlur={onBlur}
         onChange={(e) => {
@@ -122,6 +136,10 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></ControlledInput>
+      <Divider orientation="vertical" variant="middle" flexItem />
+      <IconButton sx={{ p: "4px" }} onClick={handleSettingsClick}>
+        <Settings sx={{ fontSize: 15 }} />
+      </IconButton>
     </Card>
   );
 }

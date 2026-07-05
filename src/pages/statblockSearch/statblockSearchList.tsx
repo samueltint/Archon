@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 // bestiaryJson is loaded lazily on first search to avoid blocking initial render
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Search } from "@mui/icons-material";
 import type { Creature } from "../../types/creature";
 import query from "../../util/query";
@@ -70,33 +70,38 @@ function parseSimpleValue(value: unknown): number {
 }
 
 function StatblockSearchList() {
-  const [searchValue, setSearchValue] = useState("");
+  const params = new URLSearchParams(window.location.search);
+  const searchQuery = params.get("searchQuery");
+
+  const [searchValue, setSearchValue] = useState(searchQuery);
   const [filteredCreatures, setFilteredCreatures] = useState<Creature[]>([]);
   const [creature, setCreature] = useState<Creature>();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
-  async function searchNames() {
-    setFilteredCreatures([]);
-    setIsLoading(true);
+  const searchNames = useCallback(async () => {
+    // if (searchValue?.length ?? 0 > 2) {
+      setFilteredCreatures([]);
+      setIsLoading(true);
 
-    // Lazy-load the bestiary only when first search is triggered
-    if (!bestiaryCache) {
-      const mod = await import("../../util/bestiaryShort.json");
-      bestiaryCache = mod.default;
-    }
+      // Lazy-load the bestiary only when first search is triggered
+      if (!bestiaryCache) {
+        const mod = await import("../../util/bestiaryShort.json");
+        bestiaryCache = mod.default;
+      }
 
-    const output = query<Monster[]>(
-      bestiaryCache,
-      `filter(regex(.name, "${searchValue}", "i")) `,
-    );
-    const newCreatures = output.map((c: Monster) => {
-      return monsterToCreature(c);
-    });
-    setFilteredCreatures(newCreatures ?? []);
-    setIsLoading(false);
-  }
+      const output = query<Monster[]>(
+        bestiaryCache,
+        `filter(regex(.name, "${searchValue}", "i")) `,
+      );
+      const newCreatures = output.map((c: Monster) => {
+        return monsterToCreature(c);
+      });
+      setFilteredCreatures(newCreatures ?? []);
+      setIsLoading(false);
+    // }
+  }, [searchValue]);
 
   async function handlePreviewClick(creature: Creature) {
     const ids = await OBR.player.getSelection();
@@ -119,7 +124,6 @@ function StatblockSearchList() {
       for (const item of items) {
         if (selectedIds.includes(item.id)) {
           CreatureToItem(item, creature, false, false);
-
         }
       }
     });
@@ -128,6 +132,12 @@ function StatblockSearchList() {
   function handleClose() {
     setConfirmDialogOpen(false);
   }
+
+  useEffect(() => {
+    if (searchQuery && searchQuery !== "") {
+      searchNames(); // eslint-disable-line
+    }
+  }, [searchNames, searchQuery]);
 
   return (
     <Box
@@ -151,6 +161,7 @@ function StatblockSearchList() {
           size="small"
           sx={{ flex: 1 }}
           value={searchValue}
+          defaultValue={searchQuery}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
               searchNames();
@@ -164,11 +175,9 @@ function StatblockSearchList() {
           <Search />
         </IconButton>
       </Stack>
-      {/* <Typography>{selectedIds?.length}</Typography> */}
       <Typography variant="subtitle1">
         {filteredCreatures.length} Results
       </Typography>
-      {/* <Typography>{JSON.stringify(creature)}</Typography> */}
       <List
         sx={{
           flex: 1,
@@ -177,7 +186,7 @@ function StatblockSearchList() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 0,
+          gap: .5,
           mt: 2,
         }}
       >

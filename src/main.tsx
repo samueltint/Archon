@@ -8,27 +8,29 @@ import App from "./App";
 import PopoverBase from "./components/popoverBase";
 import StatblockSearchList from "./pages/statblockSearch/statblockSearchList";
 import StatblockView from "./pages/statblockView/statblockView";
+import CreatureSettings from "./pages/creatureSettings/CreatureSettings";
 
 const getPage = () => {
   const params = new URLSearchParams(window.location.search);
-  const panel = params.get("panel");
-  return !panel ? 0 : panel === "searchStatblocks" ? 1 : 2;
+  return params.get("panel");
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <PluginGate>
       <PluginThemeProvider>
-        {getPage() == 0 ? (
-          <App />
-        ) : getPage() == 1 ? (
+        {getPage() == "searchStatblocks" ? (
           <PopoverBase popoverId="archon/statblock" title="Search Statblock">
             <StatblockSearchList />
           </PopoverBase>
-        ) : (
+        ) : getPage() == "viewStatblock" ? (
           <PopoverBase popoverId="archon/statblock" title="View Statblock">
             <StatblockView />
           </PopoverBase>
+        ) : getPage() == "creatureSettings" ? (
+            <CreatureSettings />
+        ) : (
+          <App />
         )}
       </PluginThemeProvider>
     </PluginGate>
