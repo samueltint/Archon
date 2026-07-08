@@ -27,6 +27,7 @@ import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../../util/getPluginId";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import { isPlainObject } from "../../util/isPlainObject";
+import CreatureSettingsDialog from "./CreatureSettingsDialog";
 
 type CreatureInitiativeListProps = {
   creatures: Creature[];
@@ -40,6 +41,9 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     Creature["id"] | null
   >(null);
   const [roundCount, setRoundCount] = useState(1);
+
+  const [settingsId, setSettingsId] = useState<string>();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     const handleItemsChange = async (items: Item[]) => {
@@ -160,6 +164,11 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     });
   };
 
+  const handleSettingsClick = (id: string | undefined) => {
+    setSettingsId(id);
+    setSettingsOpen(true);
+  };
+
   const activeCreature = creatures.find(
     (creature) => creature.id === activeCreatureId,
   );
@@ -261,8 +270,8 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             flexDirection: "column",
 
             flex: 1,
-            minHeight: 0, // critical for MUI flex layouts
-            overflowY: "auto", // THIS makes only list scroll
+            minHeight: 0,
+            overflowY: "auto",
           }}
         >
           <Divider />
@@ -274,6 +283,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
                   onUpdate={onUpdate}
                   handleMetadataUpdate={handleSaveMetadata}
                   isActive={activeCreature?.id === creature.id}
+                  handleSettingsClick={() => handleSettingsClick(creature.id)}
                 />
               </ListItem>
             ))
@@ -353,6 +363,9 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           </Stack>
         </Dialog>
       </Stack>
+      <Dialog fullWidth open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+        <CreatureSettingsDialog itemId={settingsId} />
+      </Dialog>
     </Box>
   );
 }

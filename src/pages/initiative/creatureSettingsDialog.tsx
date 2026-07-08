@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import type { Creature } from "../../types/creature";
 
-export default function CreatureSettings() {
-  const params = new URLSearchParams(window.location.search);
-  const itemId = params.get("itemIds");
+export default function CreatureSettingsDialog(props: {
+  itemId: string | undefined;
+}) {
+  const { itemId } = props;
 
   const [item, setItem] = useState<Item>();
   const [creature, setCreature] = useState<Creature>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => Boolean(itemId));
 
   useEffect(() => {
     if (!itemId) return;
@@ -34,7 +35,7 @@ export default function CreatureSettings() {
   if (isLoading) {
     return (
       <Container sx={{ p: 3 }}>
-        <Typography>Loading...</Typography>
+        <Typography>{itemId}</Typography>
       </Container>
     );
   }
@@ -60,7 +61,9 @@ export default function CreatureSettings() {
             }}
           />
         }
-        label={<Typography sx={{fontSize: "1rem"}}>Mark as Player</Typography>}
+        label={
+          <Typography sx={{ fontSize: "1rem" }}>Mark as Player</Typography>
+        }
       />
     </Container>
   );

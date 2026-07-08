@@ -8,7 +8,6 @@ import App from "./App";
 import PopoverBase from "./components/popoverBase";
 import StatblockSearchList from "./pages/statblockSearch/statblockSearchList";
 import StatblockView from "./pages/statblockView/statblockView";
-import CreatureSettings from "./pages/creatureSettings/CreatureSettings";
 
 const getPage = () => {
   const params = new URLSearchParams(window.location.search);
@@ -27,8 +26,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <PopoverBase popoverId="archon/statblock" title="View Statblock">
             <StatblockView />
           </PopoverBase>
-        ) : getPage() == "creatureSettings" ? (
-            <CreatureSettings />
         ) : (
           <App />
         )}

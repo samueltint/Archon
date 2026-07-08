@@ -1,7 +1,7 @@
 import type { EntryBlock } from "./5eToolsMonster";
 
 export interface Creature extends CreatureMetadata {
-  id?: string | number;
+  id?: string;
   slug?: string;
   name: string;
   isVisible: boolean;

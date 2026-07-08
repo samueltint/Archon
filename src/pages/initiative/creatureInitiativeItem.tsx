@@ -3,29 +3,24 @@ import { type Creature } from "../../types/creature";
 import { Card, Divider, IconButton, Typography } from "@mui/material";
 import ControlledInput from "../../components/controlledInput";
 import { Settings } from "@mui/icons-material";
-import OBR from "@owlbear-rodeo/sdk";
 
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
   onUpdate: (creature: Creature) => void;
   handleMetadataUpdate: (creature: Creature) => void;
   isActive: boolean;
+  handleSettingsClick: () => void;
 }) {
-  const { creature, onUpdate, handleMetadataUpdate, isActive } = props;
+  const {
+    creature,
+    onUpdate,
+    handleMetadataUpdate,
+    isActive,
+    handleSettingsClick,
+  } = props;
 
   const onBlur = () => {
     handleMetadataUpdate(creature);
-  };
-
-  const handleSettingsClick = () => {
-    if (creature.id) {
-      OBR.modal.open({
-        id: "archon/settings",
-        url: `/?panel=creatureSettings&itemIds=${encodeURIComponent(creature.id)}`,
-        height: 300,
-        width: 300,
-      });
-    }
   };
 
   useEffect(() => {
