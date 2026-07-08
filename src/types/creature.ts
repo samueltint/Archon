@@ -9,7 +9,7 @@ export interface Creature extends CreatureMetadata {
 }
 
 export interface CreatureMetadata {
-  role: "enemy" | "player" | "ally";
+  role: CreatureRole;
   cr?: number;
   currentHp?: number;
   maxHp?: number;
@@ -19,6 +19,9 @@ export interface CreatureMetadata {
   stats?: CreatureStats;
   allTraits?: CreatureTraits;
 }
+
+export type CreatureRole = "enemy" | "player" | "ally";
+export const roles: CreatureRole[] = ["enemy", "player", "ally"];
 
 export type CreatureStats = {
   str?: number;

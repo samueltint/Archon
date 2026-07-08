@@ -1,7 +1,6 @@
 import {
   Container,
   Divider,
-  FormControlLabel,
   MenuItem,
   Select,
   Stack,
@@ -10,12 +9,11 @@ import {
 import OBR, { type Item } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
-import type { Creature } from "../../types/creature";
+import { roles, type Creature } from "../../types/creature";
 
 export default function CreatureSettingsDialog(props: {
   itemId: string | undefined;
 }) {
-  const roles = ["enemy", "player", "ally"];
   const { itemId } = props;
 
   const [item, setItem] = useState<Item>();

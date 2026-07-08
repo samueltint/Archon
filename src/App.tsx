@@ -155,6 +155,39 @@ function App() {
           });
         },
       });
+
+      OBR.contextMenu.create({
+        icons: [
+          {
+            icon: "/user-pen.svg",
+            label: "Set Roles",
+            filter: {
+              every: [
+                { key: "layer", value: "CHARACTER", coordinator: "||" },
+                { key: "layer", value: "MOUNT" },
+                { key: "type", value: "IMAGE" },
+              ],
+              permissions: ["UPDATE"],
+            },
+          },
+        ],
+        id: getPluginId("menu/setRole"),
+        onClick(context) {
+          const itemIds = context.items[0].id;
+
+          OBR.popover.open({
+            id: "archon/statblock",
+            height: 200,
+            width: 250,
+            url: `/?panel=setRoles&itemIds=${encodeURIComponent(itemIds)}`,
+            transformOrigin: {
+              horizontal: "CENTER",
+              vertical: "TOP",
+            },
+            anchorPosition: { left: 500, top: 0 },
+          });
+        },
+      });
     }
   }, [sceneReady]);
 
