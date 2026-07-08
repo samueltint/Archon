@@ -10,7 +10,7 @@ export default function CreatureSettings() {
 
   const [item, setItem] = useState<Item>();
   const [creature, setCreature] = useState<Creature>();
-  const [isLoading, setIsLoading] = useState(() => Boolean(itemId));
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!itemId) return;

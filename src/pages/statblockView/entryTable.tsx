@@ -1,6 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material";
 import type { CreatureTraits } from "../../types/creature";
-import ParsedEntry from "../../util/ParsedEntry";
+import ParsedEntry from "./ParsedEntry";
 
 export default function EntryTable(props: {
   CreatureTraits: CreatureTraits;

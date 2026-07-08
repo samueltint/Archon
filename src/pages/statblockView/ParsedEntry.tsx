@@ -1,8 +1,8 @@
 /* eslint-disable no-fallthrough */
 
-import { Typography } from "@mui/material";
-import type { EntryBlock } from "../types/5eToolsMonster";
-import type { ReactElement, ReactNode } from "react";
+import { Stack, Typography } from "@mui/material";
+import type { EntryBlock } from "../../types/5eToolsMonster";
+import type { ReactNode } from "react";
 
 type TagHandler = (
   tagName: string,
@@ -10,6 +10,33 @@ type TagHandler = (
 ) => { text: string; bold: boolean; italic: boolean };
 
 const TAG_RE = /\{@(\w+)(?:\s+([^{}]*))?\}/g;
+
+function renderEntryBlock(entryBlock: EntryBlock, key: React.Key): ReactNode {
+  if (entryBlock.type === "list" && entryBlock.items?.length) {
+    return (
+      <Stack key={key} component="div" sx={{ pl: 2, gap: 0.5 }}>
+        {entryBlock.items.map((item, index) => renderEntryBlock(item, `${String(key)}-${index}`))}
+      </Stack>
+    );
+  }
+
+  return (
+    <Typography
+      key={key}
+      variant="body2"
+      sx={{ fontSize: ".9rem" }}
+    >
+      <Typography
+        variant="inherit"
+        component="span"
+        sx={{ fontWeight: "900" }}
+      >
+        {entryBlock.name + " - "}
+      </Typography>
+      {ParsedEntry(entryBlock.entries ?? entryBlock.entry ?? "")}
+    </Typography>
+  );
+}
 
 function parseTags(input: string, handler: TagHandler): ReactNode[] {
   const nodes: ReactNode[] = [];
@@ -178,28 +205,14 @@ const handler: TagHandler = (tag, args) => {
 
 export default function ParsedEntry(
   entry: string | (string | EntryBlock)[],
-): string[] | ReactElement[] {
+): ReactNode[] {
   const input = typeof entry === "string" ? [entry] : entry;
 
-  if (typeof input[0] !== "string") {
-    return (input as EntryBlock[]).map((entryBlock) => (
-      <Typography
-        key={entryBlock.name}
-        variant="body2"
-        sx={{ fontSize: ".9rem" }}
-      >
-        <Typography
-          variant="inherit"
-          component="span"
-          sx={{ fontWeight: "900" }}
-        >
-          {entryBlock.name + " - "}
-        </Typography>
-        {ParsedEntry(entryBlock.entries ?? entryBlock.entry ?? "")}
-      </Typography>
-    ));
-  } else {
-    return (input as string[]).map((text, i) => (
-      <span key={i}>{parseTags(text, handler)}</span>
-    ));  }
+  return input.map((item, index) =>
+    typeof item === "string" ? (
+      <span key={index}>{parseTags(item, handler)}</span>
+    ) : (
+      renderEntryBlock(item, `${item.name}-${index}`)
+    ),
+  );
 }

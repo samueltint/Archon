@@ -79,6 +79,7 @@ export interface EntryBlock {
   name: string;
   entry?: string;
   entries?: (string | EntryBlock)[];
+  items?: EntryBlock[];
 }
 
 export interface Spellcasting {

@@ -4,8 +4,9 @@ import {
   Card,
   CircularProgress,
   Dialog,
+  Divider,
   Grid,
-  IconButton,
+  InputAdornment,
   List,
   Stack,
   TextField,
@@ -82,24 +83,24 @@ function StatblockSearchList() {
 
   const searchNames = useCallback(async () => {
     // if (searchValue?.length ?? 0 > 2) {
-      setFilteredCreatures([]);
-      setIsLoading(true);
+    setFilteredCreatures([]);
+    setIsLoading(true);
 
-      // Lazy-load the bestiary only when first search is triggered
-      if (!bestiaryCache) {
-        const mod = await import("../../util/bestiaryShort.json");
-        bestiaryCache = mod.default;
-      }
+    // Lazy-load the bestiary only when first search is triggered
+    if (!bestiaryCache) {
+      const mod = await import("../../util/bestiaryShort.json");
+      bestiaryCache = mod.default;
+    }
 
-      const output = query<Monster[]>(
-        bestiaryCache,
-        `filter(regex(.name, "${searchValue}", "i")) `,
-      );
-      const newCreatures = output.map((c: Monster) => {
-        return monsterToCreature(c);
-      });
-      setFilteredCreatures(newCreatures ?? []);
-      setIsLoading(false);
+    const output = query<Monster[]>(
+      bestiaryCache,
+      `filter(regex(.name, "${searchValue}", "i")) `,
+    );
+    const newCreatures = output.map((c: Monster) => {
+      return monsterToCreature(c);
+    });
+    setFilteredCreatures(newCreatures ?? []);
+    setIsLoading(false);
     // }
   }, [searchValue]);
 
@@ -149,11 +150,42 @@ function StatblockSearchList() {
         height: "100%",
       }}
     >
+      <Button
+        variant="outlined"
+        onClick={() =>
+          handlePreviewClick({
+            isVisible: true,
+            isPlayer: false,
+            name: "Monster",
+            slug: "monster",
+            maxHp: 10,
+            ac: 10,
+            cr: 0,
+            stats: {
+              str: 10,
+              dex: 10,
+              con: 10,
+              int: 10,
+              wis: 10,
+              cha: 10,
+            },
+            allTraits: {
+              traits: undefined,
+              actions: undefined,
+              bonusActions: undefined,
+              reactions: undefined,
+              legendaryActions: undefined,
+            },
+          })
+        }
+      >
+        Set Empty Statblock
+      </Button>
+      <Divider sx={{ my: 1 }} />
       <Stack
         direction="row"
         sx={{
           justifyContent: "center",
-          py: 1,
           gap: 1,
         }}
       >
@@ -170,12 +202,18 @@ function StatblockSearchList() {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setSearchValue(event.target.value);
           }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
-        <IconButton onClick={searchNames}>
-          <Search />
-        </IconButton>
       </Stack>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" sx={{ pt: 1, fontSize: "1.3rem" }}>
         {filteredCreatures.length} Results
       </Typography>
       <List
@@ -186,8 +224,7 @@ function StatblockSearchList() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: .5,
-          mt: 2,
+          gap: 0.5,
         }}
       >
         {isLoading ? (

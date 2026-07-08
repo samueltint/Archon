@@ -98,7 +98,7 @@ function App() {
           const itemIds = context.items.map((item) => item.id).join(",");
           const searchQuery =
             context.items.length == 1
-              ? `&searchQuery=${context.items[0].name.replace(" ", "+")}`
+              ? `&searchQuery=${context.items[0].name.replaceAll(" ", "+")}`
               : "";
           OBR.popover.open({
             id: "archon/statblock",
