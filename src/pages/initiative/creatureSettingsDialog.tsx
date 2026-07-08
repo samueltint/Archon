@@ -1,4 +1,12 @@
-import { Container, FormControlLabel, Switch, Typography } from "@mui/material";
+import {
+  Container,
+  Divider,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
 import OBR, { type Item } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
@@ -7,6 +15,7 @@ import type { Creature } from "../../types/creature";
 export default function CreatureSettingsDialog(props: {
   itemId: string | undefined;
 }) {
+  const roles = ["enemy", "player", "ally"];
   const { itemId } = props;
 
   const [item, setItem] = useState<Item>();
@@ -51,20 +60,22 @@ export default function CreatureSettingsDialog(props: {
   return (
     <Container sx={{ p: 3 }}>
       <Typography>{item.name}</Typography>
-      <FormControlLabel
-        sx={{ fontSize: ".5rem" }}
-        control={
-          <Switch
-            checked={creature.isPlayer}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setCreature({ ...creature, isPlayer: event.target.checked });
-            }}
-          />
-        }
-        label={
-          <Typography sx={{ fontSize: "1rem" }}>Mark as Player</Typography>
-        }
-      />
+      <Divider sx={{ my:1}}/>
+      <Stack direction={"row"} sx={{ alignItems: "center", gap: 1 }}>
+        <Typography sx={{ fontSize: "1rem" }}>{"Role: "}</Typography>
+        <Select
+          value={creature.role ?? "enemy"}
+          size="small"
+          sx={{ fontSize: "1rem" }}
+          onChange={(e) => {
+            setCreature({ ...creature, role: e.target.value });
+          }}
+        >
+          {roles.map((role) => {
+            return <MenuItem value={role}>{role}</MenuItem>;
+          })}
+        </Select>
+      </Stack>
     </Container>
   );
 }

@@ -7,7 +7,7 @@ export const theme = createTheme({
       main: "#aa3bff", // accent purple
     },
     secondary: {
-      main: "#aa3bff",
+      main: "#c084fc",
     },
     text: {
       primary: "#6b6375",
@@ -72,7 +72,7 @@ export const darkTheme = createTheme({
       main: "#c084fc", // lighter purple for dark mode
     },
     secondary: {
-      main: "#c084fc",
+      main: "#aa3bff",
     },
     text: {
       primary: "#9ca3af",

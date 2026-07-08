@@ -128,7 +128,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
   const handleRollInitiative = () => {
     const newCreatures = creatures.map((creature) => ({
       ...creature,
-      initiative: creature.isPlayer
+      initiative: creature.role == "player"
         ? creature.initiative
         : Math.floor(Math.random() * 20) + 1,
     }));

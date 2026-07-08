@@ -13,7 +13,7 @@ function ItemToCreature(item: Item, initiative?: number) {
     name: name,
     initiative: initiative ?? 0,
     initiativeModifier: creatureMetadata?.initiativeModifier ?? 0,
-    isPlayer: creatureMetadata?.isPlayer,
+    role: creatureMetadata?.role,
     isVisible: item.visible,
     maxHp: creatureMetadata?.maxHp ?? 0,
     currentHp: creatureMetadata?.currentHp ?? creatureMetadata?.maxHp ?? 0,
@@ -46,7 +46,7 @@ function CreatureToItem(
     initiativeModifier: creature.initiativeModifier,
     stats: creature.stats,
     allTraits: creature.allTraits,
-    isPlayer: creature.isPlayer,
+    role: creature.role,
   };
 
   if (updateInitiative) {

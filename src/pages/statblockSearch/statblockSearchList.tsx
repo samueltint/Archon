@@ -28,7 +28,7 @@ let bestiaryCache: unknown = null;
 function monsterToCreature(monster: Monster) {
   return {
     isVisible: true,
-    isPlayer: false,
+    role: "enemy",
     name: monster.name,
     slug: monster.slug,
     maxHp: monster.hp.average,
@@ -49,7 +49,7 @@ function monsterToCreature(monster: Monster) {
       reactions: monster.reaction,
       legendaryActions: monster.legendary,
     },
-  };
+  } satisfies Creature;
 }
 
 function parseSimpleValue(value: unknown): number {
@@ -155,7 +155,7 @@ function StatblockSearchList() {
         onClick={() =>
           handlePreviewClick({
             isVisible: true,
-            isPlayer: false,
+            role: "enemy",
             name: "Monster",
             slug: "monster",
             maxHp: 10,

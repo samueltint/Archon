@@ -9,7 +9,7 @@ export interface Creature extends CreatureMetadata {
 }
 
 export interface CreatureMetadata {
-  isPlayer: boolean;
+  role: "enemy" | "player" | "ally";
   cr?: number;
   currentHp?: number;
   maxHp?: number;

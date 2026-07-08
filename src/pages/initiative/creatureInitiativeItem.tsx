@@ -68,7 +68,12 @@ export default function CreatureInitiativeItem(props: {
         sx={{
           flex: 1,
           fontWeight: "bold",
-          color: creature.isPlayer ? "primary.main" : "text.primary",
+          color:
+            creature.role == "player"
+              ? "primary.main"
+              : creature.role == "ally"
+                ? "secondary.main"
+                : "secondary.primary",
         }}
         onBlur={onBlur}
         onChange={(e) => {
