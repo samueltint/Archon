@@ -65,7 +65,7 @@ export function Root() {
       else return <Typography sx={{ p: 3 }}>GM Permission Required</Typography>;
 
     default:
-      return <App userRole={userRole} />;
+      return <App userRole={userRole} userId={userId} />;
   }
 }
 

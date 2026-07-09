@@ -58,7 +58,7 @@ function StatblockView(props: { userRole: "GM" | "PLAYER"; userId: string }) {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (item.id == itemId) {
-          CreatureToItem(item, creature, false, true);
+          CreatureToItem(item, creature, true);
         }
       }
     });

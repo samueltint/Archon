@@ -7,22 +7,30 @@ import { Settings } from "@mui/icons-material";
 export default function CreatureInitiativeItem(props: {
   creature: Creature;
   onUpdate: (creature: Creature) => void;
-  handleMetadataUpdate: (creature: Creature) => void;
+  handleCreatureMetadataUpdate: (creature: Creature) => void;
+  handleInitiativeMetadataUpdate: (creature: Creature[]) => void;
   isActive: boolean;
   handleSettingsClick: () => void;
   userRole: "GM" | "PLAYER";
+  userId: string;
 }) {
   const {
     creature,
     onUpdate,
-    handleMetadataUpdate,
+    handleCreatureMetadataUpdate,
+    handleInitiativeMetadataUpdate,
     isActive,
     handleSettingsClick,
     userRole,
+    userId,
   } = props;
 
   const onBlur = () => {
-    handleMetadataUpdate(creature);
+    handleCreatureMetadataUpdate(creature);
+  };
+
+  const onInitiativeBlur = () => {
+    handleInitiativeMetadataUpdate([creature]);
   };
 
   useEffect(() => {
@@ -33,6 +41,12 @@ export default function CreatureInitiativeItem(props: {
       });
     }
   }, [creature, onUpdate]);
+
+  const canWrite =
+    userRole == "GM" ||
+    creature?.permissions?.find(
+      (perm) => perm.userId == userId && perm.permission == "write",
+    ) != undefined;
 
   return (
     <Card
@@ -48,10 +62,11 @@ export default function CreatureInitiativeItem(props: {
       variant="outlined"
     >
       <ControlledInput
+        disabled={!canWrite}
         sx={{ width: "auto" }}
         value={(creature.initiative ?? 0) + (creature.initiativeModifier ?? 0)}
         size="xs"
-        onBlur={onBlur}
+        onBlur={onInitiativeBlur}
         onChange={(e) => {
           const initiative = parseInt(e.target.value) || 0;
           const modifier = creature.initiativeModifier ?? 0;
@@ -65,6 +80,7 @@ export default function CreatureInitiativeItem(props: {
       <Divider orientation="vertical" variant="middle" flexItem />
 
       <ControlledInput
+        disabled={!canWrite}
         size="sm"
         value={creature.name}
         sx={{
@@ -86,6 +102,7 @@ export default function CreatureInitiativeItem(props: {
       <Divider orientation="vertical" variant="middle" flexItem />
 
       <ControlledInput
+        disabled={!canWrite}
         value={creature.currentHp ?? creature.maxHp ?? 0}
         size="sm"
         onBlur={onBlur}
@@ -100,6 +117,7 @@ export default function CreatureInitiativeItem(props: {
       <Typography sx={{ fontSize: "1rem" }}>/</Typography>
 
       <ControlledInput
+        disabled={!canWrite}
         value={creature.maxHp}
         size="sm"
         onBlur={onBlur}
@@ -113,6 +131,7 @@ export default function CreatureInitiativeItem(props: {
       <Divider orientation="vertical" variant="middle" flexItem />
 
       <ControlledInput
+        disabled={!canWrite}
         value={creature.tempHp ?? 0}
         size="xs"
         sx={{ width: "auto" }}
@@ -127,6 +146,7 @@ export default function CreatureInitiativeItem(props: {
 
       <Divider orientation="vertical" variant="middle" flexItem />
       <ControlledInput
+        disabled={!canWrite}
         value={creature.ac ?? 0}
         size="xs"
         sx={{ width: "auto" }}
@@ -138,7 +158,7 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></ControlledInput>
-      {userRole == "GM" && (
+      {canWrite && (
         <>
           <Divider orientation="vertical" variant="middle" flexItem />
           <IconButton sx={{ p: "4px" }} onClick={handleSettingsClick}>

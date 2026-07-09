@@ -124,7 +124,7 @@ function StatblockSearchList() {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (selectedIds.includes(item.id)) {
-          CreatureToItem(item, creature, false, false);
+          CreatureToItem(item, creature, false);
         }
       }
     });

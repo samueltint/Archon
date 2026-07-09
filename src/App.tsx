@@ -8,8 +8,8 @@ import { getPluginId } from "./util/getPluginId";
 import { a11yProps } from "./util/a11yProps";
 import CustomTabPanel from "./components/customTabPanel";
 
-function App(props: { userRole: "GM" | "PLAYER" }) {
-  const { userRole } = props;
+function App(props: { userRole: "GM" | "PLAYER"; userId: string }) {
+  const { userRole, userId } = props;
   const [sceneReady, setSceneReady] = useState(false);
   const [creatures, setCreatures] = useState<Creature[]>([]);
   const [tabValue, setTabValue] = useState(0);
@@ -187,7 +187,7 @@ function App(props: { userRole: "GM" | "PLAYER" }) {
         },
       });
     }
-  }, [sceneReady]);
+  }, [sceneReady, userRole]);
 
   if (!sceneReady) {
     return (
@@ -222,6 +222,7 @@ function App(props: { userRole: "GM" | "PLAYER" }) {
               creatures={creatures}
               setCreatures={setCreatures}
               userRole={userRole}
+              userId={userId}
             />
           </CustomTabPanel>
           <CustomTabPanel value={tabValue} index={1}>
@@ -233,6 +234,7 @@ function App(props: { userRole: "GM" | "PLAYER" }) {
           creatures={creatures}
           setCreatures={setCreatures}
           userRole={userRole}
+          userId={userId}
         />
       )}
     </Container>

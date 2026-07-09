@@ -28,7 +28,6 @@ function ItemToCreature(item: Item, initiative?: number) {
 function CreatureToItem(
   item: Item,
   creature: Creature,
-  updateInitiative?: boolean,
   updateName?: boolean,
 ): void {
   if ((creature.currentHp ?? 0) > (creature.maxHp ?? 0)) {
@@ -50,12 +49,6 @@ function CreatureToItem(
     role: creature.role,
     permissions: creature.permissions,
   };
-
-  if (updateInitiative) {
-    item.metadata[getPluginId("initiative/metadata")] = {
-      initiative: creature.initiative,
-    };
-  }
 }
 
 export { ItemToCreature, CreatureToItem };
