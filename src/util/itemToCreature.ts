@@ -21,6 +21,7 @@ function ItemToCreature(item: Item, initiative?: number) {
     ac: creatureMetadata?.ac ?? 0,
     stats: creatureMetadata?.stats,
     allTraits: creatureMetadata?.allTraits,
+    permissions: creatureMetadata?.permissions,
   } as Creature;
 }
 
@@ -47,6 +48,7 @@ function CreatureToItem(
     stats: creature.stats,
     allTraits: creature.allTraits,
     role: creature.role,
+    permissions: creature.permissions,
   };
 
   if (updateInitiative) {

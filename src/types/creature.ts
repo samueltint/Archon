@@ -10,6 +10,7 @@ export interface Creature extends CreatureMetadata {
 
 export interface CreatureMetadata {
   role: CreatureRole;
+  permissions?: Permission[];
   cr?: number;
   currentHp?: number;
   maxHp?: number;
@@ -19,6 +20,11 @@ export interface CreatureMetadata {
   stats?: CreatureStats;
   allTraits?: CreatureTraits;
 }
+
+export type Permission = {
+  userId: string;
+  permission: "read" | "write";
+};
 
 export type CreatureRole = "enemy" | "player" | "ally";
 export const roles: CreatureRole[] = ["enemy", "player", "ally"];

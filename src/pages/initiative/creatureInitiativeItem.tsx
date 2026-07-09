@@ -10,6 +10,7 @@ export default function CreatureInitiativeItem(props: {
   handleMetadataUpdate: (creature: Creature) => void;
   isActive: boolean;
   handleSettingsClick: () => void;
+  userRole: "GM" | "PLAYER";
 }) {
   const {
     creature,
@@ -17,6 +18,7 @@ export default function CreatureInitiativeItem(props: {
     handleMetadataUpdate,
     isActive,
     handleSettingsClick,
+    userRole,
   } = props;
 
   const onBlur = () => {
@@ -136,10 +138,14 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></ControlledInput>
-      <Divider orientation="vertical" variant="middle" flexItem />
-      <IconButton sx={{ p: "4px" }} onClick={handleSettingsClick}>
-        <Settings sx={{ fontSize: 15 }} />
-      </IconButton>
+      {userRole == "GM" && (
+        <>
+          <Divider orientation="vertical" variant="middle" flexItem />
+          <IconButton sx={{ p: "4px" }} onClick={handleSettingsClick}>
+            <Settings sx={{ fontSize: 15 }} />
+          </IconButton>
+        </>
+      )}
     </Card>
   );
 }

@@ -27,15 +27,17 @@ import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../../util/getPluginId";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import { isPlainObject } from "../../util/isPlainObject";
-import CreatureSettingsDialog from "./CreatureSettingsDialog";
+import CreatureSettingsDialog from "./creatureSettingsDialog";
+import { Scrollbar } from 'react-scrollbars-custom';
 
 type CreatureInitiativeListProps = {
   creatures: Creature[];
   setCreatures: Dispatch<SetStateAction<Creature[]>>;
+  userRole: "GM" | "PLAYER";
 };
 
 function CreatureInitiativeList(props: CreatureInitiativeListProps) {
-  const { creatures, setCreatures } = props;
+  const { creatures, setCreatures, userRole } = props;
   const [open, setOpen] = useState(false);
   const [activeCreatureId, setActiveCreatureId] = useState<
     Creature["id"] | null
@@ -128,9 +130,10 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
   const handleRollInitiative = () => {
     const newCreatures = creatures.map((creature) => ({
       ...creature,
-      initiative: creature.role == "player"
-        ? creature.initiative
-        : Math.floor(Math.random() * 20) + 1,
+      initiative:
+        creature.role == "player"
+          ? creature.initiative
+          : Math.floor(Math.random() * 20) + 1,
     }));
 
     setCreatures(newCreatures);
@@ -254,43 +257,54 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             >
               <Shield fontSize="small" color="primary" />
             </Box>
-            <Divider orientation="vertical" flexItem />
-            <Box
+            {userRole == "GM" && (
+              <>
+                <Divider orientation="vertical" flexItem />
+                <Box
+                  sx={{
+                    width: "24px",
+                  }}
+                ></Box>
+              </>
+            )}
+            {/* <Box
               sx={{
-                width: "24px",
+                width: "10px",
               }}
-            ></Box>
+            ></Box> */}
           </Box>
         </ListItem>
-        <List
-          sx={{
-            width: "100%",
-            gap: 1.5,
-            display: "flex",
-            flexDirection: "column",
+        <Scrollbar >
+          <List
+            sx={{
+              width: "100%",
+              gap: 1.5,
+              display: "flex",
+              flexDirection: "column",
 
-            flex: 1,
-            minHeight: 0,
-            overflowY: "auto",
-          }}
-        >
-          <Divider />
-          {creatures.length ? (
-            sortCreatures(creatures).map((creature) => (
-              <ListItem key={creature.id} sx={{ padding: 0 }}>
-                <CreatureInitiativeItem
-                  creature={creature}
-                  onUpdate={onUpdate}
-                  handleMetadataUpdate={handleSaveMetadata}
-                  isActive={activeCreature?.id === creature.id}
-                  handleSettingsClick={() => handleSettingsClick(creature.id)}
-                />
-              </ListItem>
-            ))
-          ) : (
-            <Typography align="center">No Creatures Added Yet</Typography>
-          )}
-        </List>
+              flex: 1,
+              minHeight: 0,
+            }}
+          >
+            <Divider />
+            {creatures.length ? (
+              sortCreatures(creatures).map((creature) => (
+                <ListItem key={creature.id} sx={{ padding: 0 }}>
+                  <CreatureInitiativeItem
+                    creature={creature}
+                    onUpdate={onUpdate}
+                    handleMetadataUpdate={handleSaveMetadata}
+                    isActive={activeCreature?.id === creature.id}
+                    handleSettingsClick={() => handleSettingsClick(creature.id)}
+                    userRole={userRole}
+                  />
+                </ListItem>
+              ))
+            ) : (
+              <Typography align="center">No Creatures Added Yet</Typography>
+            )}
+          </List>
+        </Scrollbar>
       </Container>
       <Divider flexItem />
       <Stack
@@ -302,68 +316,78 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           py: 2,
         }}
       >
-        <IconButton onClick={handleInitiativeBack}>
-          <Undo />
-        </IconButton>
+        {userRole == "GM" && (
+          <IconButton onClick={handleInitiativeBack}>
+            <Undo />
+          </IconButton>
+        )}
         <Typography variant="h6" sx={{ alignSelf: "center" }}>
           Round {roundCount}
         </Typography>
-        <IconButton onClick={handleInitiativeNext}>
-          <Redo />
-        </IconButton>
+        {userRole == "GM" && (
+          <IconButton onClick={handleInitiativeNext}>
+            <Redo />
+          </IconButton>
+        )}
       </Stack>
-      <Stack
-        direction="row"
-        spacing={1.5}
-        useFlexGap
-        sx={{
-          justifyContent: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<Casino />}
-          onClick={handleRollInitiative}
+      {userRole == "GM" && (
+        <Stack
+          direction="row"
+          spacing={1.5}
+          useFlexGap
+          sx={{
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
         >
-          Roll Initiative
-        </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<DoNotDisturb />}
-          onClick={() => setOpen(true)}
-        >
-          Clear Initiative List
-        </Button>
-        <Dialog open={open} onClose={() => setOpen(false)}>
-          <Typography variant="subtitle1" sx={{ p: 3 }}>
-            Are you sure you want to clear all creatures?
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={1.5}
-            sx={{
-              justifyContent: "center",
-              flexWrap: "wrap",
-              padding: "0 0 10px",
-            }}
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Casino />}
+            onClick={handleRollInitiative}
           >
-            <Button variant="outlined" color="error" onClick={handleClear}>
-              Clear
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => setOpen(false)}
+            Roll Initiative
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            startIcon={<DoNotDisturb />}
+            onClick={() => setOpen(true)}
+          >
+            Clear Initiative List
+          </Button>
+          <Dialog open={open} onClose={() => setOpen(false)}>
+            <Typography variant="subtitle1" sx={{ p: 3 }}>
+              Are you sure you want to clear all creatures?
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={1.5}
+              sx={{
+                justifyContent: "center",
+                flexWrap: "wrap",
+                padding: "0 0 10px",
+              }}
             >
-              Cancel
-            </Button>
-          </Stack>
-        </Dialog>
-      </Stack>
-      <Dialog fullWidth open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+              <Button variant="outlined" color="error" onClick={handleClear}>
+                Clear
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+            </Stack>
+          </Dialog>
+        </Stack>
+      )}
+      <Dialog
+        fullWidth
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      >
         <CreatureSettingsDialog itemId={settingsId} />
       </Dialog>
     </Box>

@@ -7,8 +7,9 @@ export default function StatsTable(props: {
   stats: CreatureStats;
   onBlur: () => void;
   onStatUpdate: (field: keyof CreatureStats, value: number) => void;
+  canWrite: boolean
 }) {
-  const { stats, onBlur, onStatUpdate } = props;
+  const { stats, onBlur, onStatUpdate, canWrite } = props;
   return Object.entries(stats).map(([key, value]) => (
     <Grid
       key={key}
@@ -18,6 +19,7 @@ export default function StatsTable(props: {
       <Stack sx={{ alignItems: "center", gap: 0.5 }}>
         <Typography variant="body2">{key.toLocaleUpperCase()}</Typography>
         <ControlledInput
+          disabled={!canWrite}
           value={value}
           size="sm"
           onBlur={onBlur}

@@ -8,7 +8,8 @@ import { getPluginId } from "./util/getPluginId";
 import { a11yProps } from "./util/a11yProps";
 import CustomTabPanel from "./components/customTabPanel";
 
-function App() {
+function App(props: { userRole: "GM" | "PLAYER" }) {
+  const { userRole } = props;
   const [sceneReady, setSceneReady] = useState(false);
   const [creatures, setCreatures] = useState<Creature[]>([]);
   const [tabValue, setTabValue] = useState(0);
@@ -24,98 +25,128 @@ function App() {
 
   useEffect(() => {
     if (sceneReady) {
-      // initiative list
-      OBR.contextMenu.create({
-        icons: [
-          {
-            icon: "/plus.svg",
-            label: "Add to Initiative",
-            filter: {
-              every: [
-                { key: "layer", value: "CHARACTER", coordinator: "||" },
-                { key: "layer", value: "MOUNT" },
-                { key: "type", value: "IMAGE" },
-                {
-                  key: ["metadata", getPluginId("initiative/metadata")],
-                  value: undefined,
-                },
-              ],
-              permissions: ["UPDATE"],
+      if (userRole == "GM") {
+        OBR.contextMenu.create({
+          icons: [
+            {
+              icon: "/plus.svg",
+              label: "Add to Initiative",
+              filter: {
+                every: [
+                  { key: "layer", value: "CHARACTER", coordinator: "||" },
+                  { key: "layer", value: "MOUNT" },
+                  { key: "type", value: "IMAGE" },
+                  {
+                    key: ["metadata", getPluginId("initiative/metadata")],
+                    value: undefined,
+                  },
+                ],
+                permissions: ["UPDATE"],
+              },
             },
-          },
-          {
-            icon: "/x.svg",
-            label: "Remove from Initiative",
-            filter: {
-              every: [
-                { key: "layer", value: "CHARACTER", coordinator: "||" },
-                { key: "layer", value: "MOUNT" },
-                { key: "type", value: "IMAGE" },
-              ],
-              permissions: ["UPDATE"],
+            {
+              icon: "/x.svg",
+              label: "Remove from Initiative",
+              filter: {
+                every: [
+                  { key: "layer", value: "CHARACTER", coordinator: "||" },
+                  { key: "layer", value: "MOUNT" },
+                  { key: "type", value: "IMAGE" },
+                ],
+                permissions: ["UPDATE"],
+              },
             },
-          },
-        ],
-        id: getPluginId("menu/toggleInitiative"),
-        onClick(context) {
-          OBR.scene.items.updateItems(context.items, (items) => {
-            const addToInitiative = items.every(
-              (item) =>
-                item.metadata[getPluginId("initiative/metadata")] === undefined,
-            );
-            for (const item of items) {
-              if (addToInitiative) {
-                item.metadata[getPluginId("initiative/metadata")] = {
-                  initiative: 0,
-                };
-              } else {
-                delete item.metadata[getPluginId("initiative/metadata")];
+          ],
+          id: getPluginId("menu/toggleInitiative"),
+          onClick(context) {
+            OBR.scene.items.updateItems(context.items, (items) => {
+              const addToInitiative = items.every(
+                (item) =>
+                  item.metadata[getPluginId("initiative/metadata")] ===
+                  undefined,
+              );
+              for (const item of items) {
+                if (addToInitiative) {
+                  item.metadata[getPluginId("initiative/metadata")] = {
+                    initiative: 0,
+                  };
+                } else {
+                  delete item.metadata[getPluginId("initiative/metadata")];
+                }
               }
-            }
-          });
-        },
-      });
-
-      // statblocks list
-
-      OBR.contextMenu.create({
-        icons: [
-          {
-            icon: "/user-pen.svg",
-            label: "Set Statblock",
-            filter: {
-              every: [
-                { key: "layer", value: "CHARACTER", coordinator: "||" },
-                { key: "layer", value: "MOUNT" },
-                { key: "type", value: "IMAGE" },
-              ],
-              permissions: ["UPDATE"],
-            },
+            });
           },
-        ],
-        id: getPluginId("menu/setStatblock"),
-        onClick(context) {
-          const itemIds = context.items.map((item) => item.id).join(",");
-          const searchQuery =
-            context.items.length == 1
-              ? `&searchQuery=${context.items[0].name.replaceAll(" ", "+")}`
-              : "";
-          OBR.popover.open({
-            id: "archon/statblock",
-            url: `/?panel=searchStatblocks${searchQuery}&itemIds=${encodeURIComponent(itemIds)}`,
-            height: 500,
-            width: 400,
-            disableClickAway: true,
-            anchorElementId: context.items[0].id,
-            anchorPosition: { left: 200, top: 0 },
-            transformOrigin: {
-              horizontal: "RIGHT",
-              vertical: "TOP",
+        });
+        OBR.contextMenu.create({
+          icons: [
+            {
+              icon: "/user-pen.svg",
+              label: "Set Statblock",
+              filter: {
+                every: [
+                  { key: "layer", value: "CHARACTER", coordinator: "||" },
+                  { key: "layer", value: "MOUNT" },
+                  { key: "type", value: "IMAGE" },
+                ],
+                permissions: ["UPDATE"],
+              },
             },
-          });
-        },
-      });
+          ],
+          id: getPluginId("menu/setStatblock"),
+          onClick(context) {
+            const itemIds = context.items.map((item) => item.id).join(",");
+            const searchQuery =
+              context.items.length == 1
+                ? `&searchQuery=${context.items[0].name.replaceAll(" ", "+")}`
+                : "";
+            OBR.popover.open({
+              id: "archon/statblock",
+              url: `/?panel=searchStatblocks${searchQuery}&itemIds=${encodeURIComponent(itemIds)}`,
+              height: 500,
+              width: 400,
+              disableClickAway: true,
+              anchorElementId: context.items[0].id,
+              anchorPosition: { left: 200, top: 0 },
+              transformOrigin: {
+                horizontal: "RIGHT",
+                vertical: "TOP",
+              },
+            });
+          },
+        });
+        OBR.contextMenu.create({
+          icons: [
+            {
+              icon: "/user-pen.svg",
+              label: "Set Roles",
+              filter: {
+                every: [
+                  { key: "layer", value: "CHARACTER", coordinator: "||" },
+                  { key: "layer", value: "MOUNT" },
+                  { key: "type", value: "IMAGE" },
+                ],
+                permissions: ["UPDATE"],
+              },
+            },
+          ],
+          id: getPluginId("menu/setRole"),
+          onClick(context) {
+            const itemIds = context.items[0].id;
 
+            OBR.popover.open({
+              id: "archon/statblock",
+              height: 200,
+              width: 250,
+              url: `/?panel=setRoles&itemIds=${encodeURIComponent(itemIds)}`,
+              transformOrigin: {
+                horizontal: "CENTER",
+                vertical: "TOP",
+              },
+              anchorPosition: { left: 500, top: 0 },
+            });
+          },
+        });
+      }
       OBR.contextMenu.create({
         icons: [
           {
@@ -155,39 +186,6 @@ function App() {
           });
         },
       });
-
-      OBR.contextMenu.create({
-        icons: [
-          {
-            icon: "/user-pen.svg",
-            label: "Set Roles",
-            filter: {
-              every: [
-                { key: "layer", value: "CHARACTER", coordinator: "||" },
-                { key: "layer", value: "MOUNT" },
-                { key: "type", value: "IMAGE" },
-              ],
-              permissions: ["UPDATE"],
-            },
-          },
-        ],
-        id: getPluginId("menu/setRole"),
-        onClick(context) {
-          const itemIds = context.items[0].id;
-
-          OBR.popover.open({
-            id: "archon/statblock",
-            height: 200,
-            width: 250,
-            url: `/?panel=setRoles&itemIds=${encodeURIComponent(itemIds)}`,
-            transformOrigin: {
-              horizontal: "CENTER",
-              vertical: "TOP",
-            },
-            anchorPosition: { left: 500, top: 0 },
-          });
-        },
-      });
     }
   }, [sceneReady]);
 
@@ -209,23 +207,34 @@ function App() {
         py: 1,
       }}
     >
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        aria-label="basic tabs example"
-      >
-        <Tab label="Initiative" {...a11yProps(0)} />
-        <Tab label="Statblocks" {...a11yProps(1)} />
-      </Tabs>
-      <CustomTabPanel value={tabValue} index={0}>
+      {userRole == "GM" ? (
+        <>
+          <Tabs
+            value={tabValue}
+            onChange={handleTabChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Initiative" {...a11yProps(0)} />
+            <Tab label="Statblocks" {...a11yProps(1)} />
+          </Tabs>
+          <CustomTabPanel value={tabValue} index={0}>
+            <CreatureInitiativeList
+              creatures={creatures}
+              setCreatures={setCreatures}
+              userRole={userRole}
+            />
+          </CustomTabPanel>
+          <CustomTabPanel value={tabValue} index={1}>
+            <StatblockSearchList />
+          </CustomTabPanel>
+        </>
+      ) : (
         <CreatureInitiativeList
           creatures={creatures}
           setCreatures={setCreatures}
+          userRole={userRole}
         />
-      </CustomTabPanel>
-      <CustomTabPanel value={tabValue} index={1}>
-        <StatblockSearchList />
-      </CustomTabPanel>
+      )}
     </Container>
   );
 }

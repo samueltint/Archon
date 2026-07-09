@@ -7,7 +7,8 @@ import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import StatsTable from "./statsTable";
 import EntryTable from "./entryTable";
 
-function StatblockView() {
+function StatblockView(props: { userRole: "GM" | "PLAYER"; userId: string }) {
+  const { userRole, userId } = props;
   const [state, setState] = useState<{ creature?: Creature; itemId?: string }>(
     {},
   );
@@ -25,6 +26,14 @@ function StatblockView() {
   }, []);
 
   const { creature, itemId } = state;
+  const canRead =
+    userRole == "GM" ||
+    creature?.permissions?.find((perm) => perm.userId == userId) != undefined;
+  const canWrite =
+    userRole == "GM" ||
+    creature?.permissions?.find(
+      (perm) => perm.userId == userId && perm.permission == "write",
+    ) != undefined;
 
   const onUpdate = <K extends keyof Creature>(field: K, value: Creature[K]) => {
     setState((prev) =>
@@ -45,7 +54,7 @@ function StatblockView() {
   };
 
   const handleSaveMetadata = () => {
-    if (!itemId || !creature) return;
+    if (!itemId || !creature || !canWrite) return;
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (item.id == itemId) {
@@ -71,6 +80,7 @@ function StatblockView() {
         <Grid container spacing={1}>
           <Grid size={12}>
             <ControlledInput
+              disabled={!canWrite}
               value={creature.name}
               size="xl"
               textAlign="left"
@@ -81,89 +91,116 @@ function StatblockView() {
           <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            size={5}
-          >
-            <Stack spacing={1} sx={{ display: "flex", alignItems: "center" }}>
-              <Typography>HP</Typography>
-              <Stack direction="row" spacing={1}>
-                <ControlledInput
-                  value={creature.currentHp}
-                  size="md"
-                  onChange={(e) =>
-                    onUpdate("currentHp", Number(e.target.value))
-                  }
+
+          {canRead ? (
+            <>
+              <Grid
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                size={5}
+              >
+                <Stack
+                  spacing={1}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <Typography>HP</Typography>
+                  <Stack direction="row" spacing={1}>
+                    <ControlledInput
+                      disabled={!canWrite}
+                      value={creature.currentHp}
+                      size="md"
+                      onChange={(e) =>
+                        onUpdate("currentHp", Number(e.target.value))
+                      }
+                      onBlur={handleSaveMetadata}
+                    />
+                    <Typography>/</Typography>
+                    <ControlledInput
+                      disabled={!canWrite}
+                      value={creature.maxHp}
+                      size="md"
+                      onChange={(e) =>
+                        onUpdate("maxHp", Number(e.target.value))
+                      }
+                      onBlur={handleSaveMetadata}
+                    />
+                  </Stack>
+                </Stack>
+              </Grid>
+              <Grid
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                size={3}
+              >
+                <Stack
+                  spacing={1}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <Typography>AC</Typography>
+                  <ControlledInput
+                    disabled={!canWrite}
+                    value={creature.ac}
+                    size="md"
+                    onChange={(e) => onUpdate("ac", Number(e.target.value))}
+                    onBlur={handleSaveMetadata}
+                  />
+                </Stack>
+              </Grid>
+              <Grid
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                size={4}
+              >
+                <Stack
+                  spacing={1}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <Typography>Initiative</Typography>
+                  <ControlledInput
+                    disabled={!canWrite}
+                    value={creature.initiativeModifier}
+                    size="md"
+                    onChange={(e) =>
+                      onUpdate("initiativeModifier", Number(e.target.value))
+                    }
+                    onBlur={handleSaveMetadata}
+                  />
+                </Stack>
+              </Grid>
+              <Grid size={12}>
+                <Divider />
+              </Grid>
+              {creature.stats && (
+                <StatsTable
+                  stats={creature.stats}
                   onBlur={handleSaveMetadata}
+                  onStatUpdate={onStatUpdate}
+                  canWrite={canWrite}
                 />
-                <Typography>/</Typography>
-                <ControlledInput
-                  value={creature.maxHp}
-                  size="md"
-                  onChange={(e) => onUpdate("maxHp", Number(e.target.value))}
-                  onBlur={handleSaveMetadata}
-                />
-              </Stack>
-            </Stack>
-          </Grid>
-          <Grid
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            size={3}
-          >
-            <Stack spacing={1} sx={{ display: "flex", alignItems: "center" }}>
-              <Typography>AC</Typography>
-              <ControlledInput
-                value={creature.ac}
-                size="md"
-                onChange={(e) => onUpdate("ac", Number(e.target.value))}
-                onBlur={handleSaveMetadata}
-              />
-            </Stack>
-          </Grid>
-          <Grid
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            size={4}
-          >
-            <Stack spacing={1} sx={{ display: "flex", alignItems: "center" }}>
-              <Typography>Initiative</Typography>
-              <ControlledInput
-                value={creature.initiativeModifier}
-                size="md"
-                onChange={(e) =>
-                  onUpdate("initiativeModifier", Number(e.target.value))
-                }
-                onBlur={handleSaveMetadata}
-              />
-            </Stack>
-          </Grid>
-          <Grid size={12}>
-            <Divider />
-          </Grid>
-          {creature.stats && (
-            <StatsTable
-              stats={creature.stats}
-              onBlur={handleSaveMetadata}
-              onStatUpdate={onStatUpdate}
-            />
-          )}
-          <Grid size={12}>
-            <Divider />
-          </Grid>
-          {creature.allTraits && (
+              )}
+              <Grid size={12}>
+                <Divider />
+              </Grid>
+              {creature.allTraits && (
+                <Grid size={12}>
+                  <EntryTable CreatureTraits={creature.allTraits} />
+                </Grid>
+              )}
+            </>
+          ) : (
             <Grid size={12}>
-              <EntryTable CreatureTraits={creature.allTraits} />
+              <Typography>
+                This creature's stats are hidden from you.
+              </Typography>
             </Grid>
           )}
         </Grid>
