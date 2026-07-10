@@ -23,7 +23,7 @@ export interface CreatureMetadata {
 
 export type Permission = {
   userId: string;
-  permission: "read" | "write";
+  permission: "read" | "write" | undefined;
 };
 
 export type CreatureRole = "enemy" | "player" | "ally";

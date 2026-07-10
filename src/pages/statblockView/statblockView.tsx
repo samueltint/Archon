@@ -28,7 +28,9 @@ function StatblockView(props: { userRole: "GM" | "PLAYER"; userId: string }) {
   const { creature, itemId } = state;
   const canRead =
     userRole == "GM" ||
-    creature?.permissions?.find((perm) => perm.userId == userId) != undefined;
+    creature?.permissions?.find(
+      (perm) => perm.userId == userId && perm.permission != undefined,
+    ) != undefined;
   const canWrite =
     userRole == "GM" ||
     creature?.permissions?.find(

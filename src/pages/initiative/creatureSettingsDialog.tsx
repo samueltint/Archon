@@ -10,6 +10,7 @@ import OBR, { type Item } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import { roles, type Creature } from "../../types/creature";
+import PermissionsCard from "./permissionsCard";
 
 export default function CreatureSettingsDialog(props: {
   itemId: string | undefined;
@@ -56,9 +57,9 @@ export default function CreatureSettingsDialog(props: {
   }
 
   return (
-    <Container sx={{ p: 3 }}>
+    <Stack sx={{ p: 3, gap: 1 }}>
       <Typography>{item.name}</Typography>
-      <Divider sx={{ my:1}}/>
+      <Divider sx={{ my: 1 }} />
       <Stack direction={"row"} sx={{ alignItems: "center", gap: 1 }}>
         <Typography sx={{ fontSize: "1rem" }}>{"Role: "}</Typography>
         <Select
@@ -74,6 +75,7 @@ export default function CreatureSettingsDialog(props: {
           })}
         </Select>
       </Stack>
-    </Container>
+      <PermissionsCard creature={creature} setCreature={setCreature} />
+    </Stack>
   );
 }

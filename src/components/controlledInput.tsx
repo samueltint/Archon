@@ -1,4 +1,8 @@
-import { OutlinedInput, useTheme, type OutlinedInputProps } from "@mui/material";
+import {
+  OutlinedInput,
+  useTheme,
+  type OutlinedInputProps,
+} from "@mui/material";
 
 export type InputSize = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -50,14 +54,15 @@ const sizeConfig: Record<
 };
 
 const ControlledInput = (
-  props: Omit<OutlinedInputProps, "size"> & {
+  props: Omit<Omit<OutlinedInputProps, "size">, "color"> & {
     size?: InputSize;
     textAlign?: string;
+    color?: string;
   },
 ) => {
-  const { size, textAlign, ...restProps } = props;
+  const { size, textAlign, color, ...restProps } = props;
   const config = size ? sizeConfig[size] : sizeConfig.sm;
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <OutlinedInput
       {...restProps}
@@ -67,13 +72,13 @@ const ControlledInput = (
         width: config.width,
         fontSize: config.fontSize,
         borderRadius: config.borderRadius ?? 1,
+        color: color ?? theme.palette.text.primary,
         "& .MuiOutlinedInput-input": {
           padding: config.padding,
           textAlign: textAlign ?? "center",
         },
         "& .MuiOutlinedInput-input.Mui-disabled": {
-          color: theme.palette.primary.contrastText,
-          WebkitTextFillColor: theme.palette.text.primary,
+          WebkitTextFillColor: color ?? theme.palette.text.primary,
         },
       }}
     />

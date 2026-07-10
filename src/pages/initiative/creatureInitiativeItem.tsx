@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { type Creature } from "../../types/creature";
-import { Card, Divider, IconButton, Typography } from "@mui/material";
+import { Card, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import ControlledInput from "../../components/controlledInput";
 import { Settings } from "@mui/icons-material";
 
@@ -24,6 +24,8 @@ export default function CreatureInitiativeItem(props: {
     userRole,
     userId,
   } = props;
+
+  const theme = useTheme();
 
   const onBlur = () => {
     handleCreatureMetadataUpdate(creature);
@@ -83,15 +85,16 @@ export default function CreatureInitiativeItem(props: {
         disabled={!canWrite}
         size="sm"
         value={creature.name}
+        color={
+          creature.role == "player"
+            ? theme.palette.primary.main
+            : creature.role == "ally"
+              ? theme.palette.secondary.main
+              : theme.palette.text.primary
+        }
         sx={{
           flex: 1,
           fontWeight: "bold",
-          color:
-            creature.role == "player"
-              ? "primary.main"
-              : creature.role == "ally"
-                ? "secondary.main"
-                : "secondary.primary",
         }}
         onBlur={onBlur}
         onChange={(e) => {
@@ -158,7 +161,7 @@ export default function CreatureInitiativeItem(props: {
           });
         }}
       ></ControlledInput>
-      {canWrite && (
+      {userRole == "GM" && (
         <>
           <Divider orientation="vertical" variant="middle" flexItem />
           <IconButton sx={{ p: "4px" }} onClick={handleSettingsClick}>

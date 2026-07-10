@@ -170,12 +170,14 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           : Math.floor(Math.random() * 20) + 1,
     }));
 
+    const newActive = sortCreatures(newCreatures).at(0);
     setCreatures(newCreatures);
     setRoundCount(1);
+    handleInitiativeMetadataUpdate(newCreatures, newActive);
     OBR.scene.setMetadata({
       [getPluginId("initiative/metadata")]: {
         roundCount: 1,
-        activeCreature: sortCreatures(newCreatures).at(0) ?? null,
+        activeCreature: newActive,
       },
     });
   };
@@ -211,7 +213,10 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     });
   };
 
-  const handleInitiativeMetadataUpdate = (creatures?: Creature[]) => {
+  const handleInitiativeMetadataUpdate = (
+    creatures?: Creature[],
+    newActiveCreature?: Creature,
+  ) => {
     if (creatures) {
       creatures.map((creature) => {
         if (creature.id) {
@@ -228,7 +233,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     OBR.scene.setMetadata({
       [getPluginId("initiative/metadata")]: {
         roundCount: roundCount,
-        activeCreature: activeCreature ?? null,
+        activeCreature: newActiveCreature ?? activeCreature ?? null,
       },
     });
   };
@@ -238,9 +243,12 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     setSettingsOpen(true);
   };
 
-  const activeCreature = creatures.find(
-    (creature) => creature.id === initiativeMetadata?.activeCreature?.id,
-  ) ?? initiativeMetadata?.activeCreature ?? undefined;
+  const activeCreature =
+    creatures.find(
+      (creature) => creature.id === initiativeMetadata?.activeCreature?.id,
+    ) ??
+    initiativeMetadata?.activeCreature ??
+    undefined;
 
   return (
     <Box
