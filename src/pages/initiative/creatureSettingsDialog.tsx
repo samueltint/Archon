@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   Container,
   Divider,
   MenuItem,
@@ -6,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import OBR, { type Item } from "@owlbear-rodeo/sdk";
+import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
 import { roles, type Creature } from "../../types/creature";
@@ -25,7 +26,9 @@ export default function CreatureSettingsDialog(props: {
     if (!itemId) return;
 
     void OBR.scene.items.getItems([itemId]).then(([loadedItem]) => {
+      if (!isImage(loadedItem)) return;
       const loadedCreature = ItemToCreature(loadedItem);
+      if (!loadedCreature) return;
 
       setItem(loadedItem);
       setCreature(loadedCreature);
@@ -36,7 +39,8 @@ export default function CreatureSettingsDialog(props: {
   useEffect(() => {
     if (!item || !creature) return;
     void OBR.scene.items.updateItems([item], (items) => {
-      CreatureToItem(items[0], creature);
+      if (!isImage(items[0])) return;
+      CreatureToItem(items[0], creature, true);
     });
   }, [item, creature]);
 
@@ -74,6 +78,16 @@ export default function CreatureSettingsDialog(props: {
             return <MenuItem value={role}>{role}</MenuItem>;
           })}
         </Select>
+      </Stack>
+      <Stack direction={"row"} sx={{ alignItems: "center", gap: 1 }}>
+        <Typography sx={{ fontSize: "1rem" }}>{"Display Name: "}</Typography>
+        <Checkbox
+          checked={creature.displayName}
+          onChange={(e) => {
+            const nextDisplayName = e.target.checked;
+            setCreature({ ...creature, displayName: nextDisplayName });
+          }}
+        ></Checkbox>
       </Stack>
       <PermissionsCard creature={creature} setCreature={setCreature} />
     </Stack>

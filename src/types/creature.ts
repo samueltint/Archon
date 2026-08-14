@@ -9,6 +9,7 @@ export interface Creature extends CreatureMetadata {
 }
 
 export interface CreatureMetadata {
+  name?: string;
   role: CreatureRole;
   permissions?: Permission[];
   cr?: number;
@@ -19,6 +20,7 @@ export interface CreatureMetadata {
   initiativeModifier?: number;
   stats?: CreatureStats;
   allTraits?: CreatureTraits;
+  displayName: boolean;
 }
 
 export type Permission = {

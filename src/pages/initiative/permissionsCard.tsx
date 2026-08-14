@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import type { Creature, Permission } from "../../types/creature";
-import OBR, { type Player } from "@owlbear-rodeo/sdk";
+import OBR, { isImage, type Player } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
 import { CreatureToItem } from "../../util/itemToCreature";
 
@@ -70,7 +70,7 @@ function PermissionItem(props: {
 
     void OBR.scene.items.updateItems([nextCreature.id], (items) => {
       const item = items[0];
-      if (!item) return;
+      if (!item || !isImage(item)) return;
 
       CreatureToItem(item, nextCreature);
     });

@@ -58,8 +58,12 @@ export default function CreatureInitiativeItem(props: {
         alignItems: "center",
         gap: 0.8,
         p: 1,
+        mx: "3px",
         borderRadius: 1,
-        backgroundColor: isActive ? "action.selected" : "background.paper",
+        backgroundColor: creature.isVisible ? "background.paper" : "divider",
+        outlineStyle: isActive ? "solid" : "none",
+        outlineWidth: 2,
+        outlineColor: "primary.main",
       }}
       variant="outlined"
     >

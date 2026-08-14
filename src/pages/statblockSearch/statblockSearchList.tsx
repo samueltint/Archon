@@ -29,6 +29,7 @@ function monsterToCreature(monster: Monster) {
   return {
     isVisible: true,
     role: "enemy",
+    displayName: false,
     name: monster.name,
     slug: monster.slug,
     maxHp: monster.hp.average,
@@ -156,6 +157,7 @@ function StatblockSearchList() {
           handlePreviewClick({
             isVisible: true,
             role: "enemy",
+            displayName: false,
             name: "Monster",
             slug: "monster",
             maxHp: 10,

@@ -15,22 +15,16 @@ function renderEntryBlock(entryBlock: EntryBlock, key: React.Key): ReactNode {
   if (entryBlock.type === "list" && entryBlock.items?.length) {
     return (
       <Stack key={key} component="div" sx={{ pl: 2, gap: 0.5 }}>
-        {entryBlock.items.map((item, index) => renderEntryBlock(item, `${String(key)}-${index}`))}
+        {entryBlock.items.map((item, index) =>
+          renderEntryBlock(item, `${String(key)}-${index}`),
+        )}
       </Stack>
     );
   }
 
   return (
-    <Typography
-      key={key}
-      variant="body2"
-      sx={{ fontSize: ".9rem" }}
-    >
-      <Typography
-        variant="inherit"
-        component="span"
-        sx={{ fontWeight: "900" }}
-      >
+    <Typography key={key} variant="body2" sx={{ fontSize: ".9rem" }}>
+      <Typography variant="inherit" component="span" sx={{ fontWeight: "900" }}>
         {entryBlock.name + " - "}
       </Typography>
       {ParsedEntry(entryBlock.entries ?? entryBlock.entry ?? "")}
@@ -111,7 +105,8 @@ const handler: TagHandler = (tag, args) => {
       return { text: args[1], bold: false, italic: false };
 
     // multiple variations for melee or ranged attacks
-    case "atk": {
+    case "atk":
+    case "atkr": {
       let range = "";
       let weapon = "";
       if (args[0].indexOf("m") >= 0) {
@@ -150,7 +145,7 @@ const handler: TagHandler = (tag, args) => {
     // {@recharge 4} -> Recharge 4-6, missing arg implies recharge 6
     case "recharge":
       return {
-        text: args[0] == undefined ? "Recharge 6" : `Recharge ${args[0]}-6`,
+        text: args[0] == undefined ? "(Recharge 6)" : `(Recharge ${args[0]}-6)`,
         bold: true,
         italic: false,
       };

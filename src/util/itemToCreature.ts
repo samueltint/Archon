@@ -1,12 +1,15 @@
-import { isImage, type Item } from "@owlbear-rodeo/sdk";
+import { isImage, type Image, type Item } from "@owlbear-rodeo/sdk";
 import type { Creature, CreatureMetadata } from "../types/creature";
 import { getPluginId } from "./getPluginId";
 
-function ItemToCreature(item: Item, initiative?: number) {
+function ImageToCreature(item: Item, initiative?: number): Creature | undefined {
+  if (!isImage(item)) return undefined;
+
   const creatureMetadata = item.metadata[
     getPluginId("creature/metadata")
   ] as CreatureMetadata;
-  const name = isImage(item) ? item.text.plainText || item.name : item.name;
+  const fallbackName = item.text?.plainText || item.name;
+  const name = creatureMetadata?.name || fallbackName;
 
   return {
     id: item.id,
@@ -22,11 +25,12 @@ function ItemToCreature(item: Item, initiative?: number) {
     stats: creatureMetadata?.stats,
     allTraits: creatureMetadata?.allTraits,
     permissions: creatureMetadata?.permissions,
+    displayName: creatureMetadata?.displayName ?? false,
   } as Creature;
 }
 
-function CreatureToItem(
-  item: Item,
+function CreatureToImage(
+  image: Image,
   creature: Creature,
   updateName?: boolean,
 ): void {
@@ -35,10 +39,25 @@ function CreatureToItem(
   }
 
   if (updateName) {
-    item.name = creature.name;
+    image.name = creature.name;
+    const nextText = creature.displayName ? creature.name : "";
+    image.text = {
+      ...image.text,
+      type: "PLAIN",
+      plainText: nextText,
+      richText: creature.displayName
+        ? [
+            {
+              type: "paragraph",
+              children: [{ text: nextText }],
+            },
+          ]
+        : [],
+    };
   }
 
-  item.metadata[getPluginId("creature/metadata")] = {
+  image.metadata[getPluginId("creature/metadata")] = {
+    name: creature.name,
     maxHp: creature.maxHp,
     currentHp: creature.currentHp,
     tempHp: creature.tempHp,
@@ -48,7 +67,8 @@ function CreatureToItem(
     allTraits: creature.allTraits,
     role: creature.role,
     permissions: creature.permissions,
+    displayName: creature.displayName,
   };
 }
 
-export { ItemToCreature, CreatureToItem };
+export { ImageToCreature as ItemToCreature, CreatureToImage as CreatureToItem };

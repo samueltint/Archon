@@ -60,8 +60,11 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         const initiativeMetadata = item.metadata[
           getPluginId("initiative/metadata")
         ] as { initiative: number };
-        if (isPlainObject(initiativeMetadata)) {
-          creatures.push(ItemToCreature(item, initiativeMetadata.initiative));
+        if (isPlainObject(initiativeMetadata) && isImage(item)) {
+          const creature = ItemToCreature(item, initiativeMetadata.initiative);
+          if (creature) {
+            creatures.push(creature);
+          }
         }
       }
       setCreatures(creatures);
@@ -106,11 +109,17 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
   };
 
   const sortCreatures = (creatures: Creature[]) => {
-    return [...creatures].sort(compareCreatureInitiatives);
+    const sorted = [...creatures].sort(compareCreatureInitiatives);
+    return sorted;
+  };
+
+  const filterCreatures = (creatures: Creature[]) => {
+    return creatures.filter((creature) => creature.isVisible);
   };
 
   const handleInitiativeBack = () => {
-    const sortedCreatures = sortCreatures(creatures);
+    const visibleCreatures = filterCreatures(creatures);
+    const sortedCreatures = sortCreatures(visibleCreatures);
     if (!sortedCreatures.length) {
       return;
     }
@@ -138,7 +147,8 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
   };
 
   const handleInitiativeNext = () => {
-    const sortedCreatures = sortCreatures(creatures);
+    const visibleCreatures = filterCreatures(creatures);
+    const sortedCreatures = sortCreatures(visibleCreatures);
     if (!sortedCreatures.length) {
       return;
     }
@@ -170,7 +180,8 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           : Math.floor(Math.random() * 20) + 1,
     }));
 
-    const newActive = sortCreatures(newCreatures).at(0);
+    const visibleCreatures = filterCreatures(newCreatures);
+    const newActive = sortCreatures(visibleCreatures).at(0);
     setCreatures(newCreatures);
     setRoundCount(1);
     handleInitiativeMetadataUpdate(newCreatures, newActive);
@@ -362,22 +373,30 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           >
             <Divider />
             {creatures.length ? (
-              sortCreatures(creatures).map((creature) => (
-                <ListItem key={creature.id} sx={{ padding: 0 }}>
-                  <CreatureInitiativeItem
-                    creature={creature}
-                    onUpdate={onUpdate}
-                    handleCreatureMetadataUpdate={handleCreatureMetadataUpdate}
-                    handleInitiativeMetadataUpdate={
-                      handleInitiativeMetadataUpdate
-                    }
-                    isActive={activeCreature?.id === creature.id}
-                    handleSettingsClick={() => handleSettingsClick(creature.id)}
-                    userRole={userRole}
-                    userId={userId}
-                  />
-                </ListItem>
-              ))
+              sortCreatures(creatures).map((creature) => {
+                return (
+                  !(userRole == "PLAYER" && !creature.isVisible) && (
+                    <ListItem key={creature.id} sx={{ padding: 0 }}>
+                      <CreatureInitiativeItem
+                        creature={creature}
+                        onUpdate={onUpdate}
+                        handleCreatureMetadataUpdate={
+                          handleCreatureMetadataUpdate
+                        }
+                        handleInitiativeMetadataUpdate={
+                          handleInitiativeMetadataUpdate
+                        }
+                        isActive={activeCreature?.id === creature.id}
+                        handleSettingsClick={() =>
+                          handleSettingsClick(creature.id)
+                        }
+                        userRole={userRole}
+                        userId={userId}
+                      />
+                    </ListItem>
+                  )
+                );
+              })
             ) : (
               <Typography align="center">No Creatures Added Yet</Typography>
             )}

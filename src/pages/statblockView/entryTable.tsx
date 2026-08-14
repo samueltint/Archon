@@ -9,34 +9,37 @@ export default function EntryTable(props: {
 }) {
   const { CreatureTraits } = props;
   const titles = [
-    "Actions",
     "Traits",
+    "Actions",
     "Bonus Actions",
     "Reactions",
     "Legendary Actions",
   ];
   return Object.entries(CreatureTraits).map(([key, value], i) => (
     <>
-      <Stack key={key} sx={{ gap: 2 }}>
-        <Typography variant="subtitle2">{titles[i]}</Typography>
+      <Stack key={key} sx={{ gap: 1 }}>
+        <Typography variant="subtitle2" sx={{ pb: 0.1 }}>
+          {titles[i]}
+        </Typography>
         {value.map((entryBlock) => (
           <Typography
             key={entryBlock.name}
             variant="body2"
-            sx={{ fontSize: ".9rem" }}
+            sx={{ fontSize: ".9rem", pl: 1 }}
           >
             <Typography
               variant="inherit"
               component="span"
               sx={{ fontWeight: "900" }}
             >
-              {entryBlock.name + " - "}
+              {ParsedEntry(entryBlock.name ?? "")}
             </Typography>
+            {" - "}
             {ParsedEntry(entryBlock.entries ?? entryBlock.entry ?? "")}
           </Typography>
         ))}
       </Stack>
-      <Divider sx={{ my: 2 }} />
+      <Divider sx={{ my: 1 }} />
     </>
   ));
 }

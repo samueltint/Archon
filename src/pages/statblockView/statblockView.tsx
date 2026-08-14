@@ -21,7 +21,8 @@ function StatblockView(props: { userRole: "GM" | "PLAYER"; userId: string }) {
     if (itemIds.length === 0) return;
 
     OBR.scene.items.getItems(itemIds).then((items) => {
-      setState({ itemId: itemIds[0], creature: items.map(ItemToCreature)[0] });
+      const creature = items.filter(isImage).map((item) => ItemToCreature(item))[0];
+      setState({ itemId: itemIds[0], creature: creature ?? undefined });
     });
   }, []);
 
