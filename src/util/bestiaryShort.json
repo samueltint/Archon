@@ -379,10 +379,7 @@
       "Common",
       "Infernal"
     ],
-    "cr": {
-      "cr": "14",
-      "xpLair": 13000
-    },
+    "cr": "14",
     "gear": [
       "orb|xphb"
     ],
@@ -13286,10 +13283,7 @@
       "Infernal",
       "Primordial"
     ],
-    "cr": {
-      "cr": "5",
-      "coven": "7"
-    },
+    "cr": "5",
     "spellcasting": [
       {
         "name": "Innate Spellcasting",
@@ -23213,10 +23207,7 @@
       "thieves' cant",
       "plus any one language"
     ],
-    "cr": {
-      "cr": "5",
-      "lair": "6"
-    },
+    "cr": "5",
     "trait": [
       {
         "name": "Legendary Resistance (2/Day)",
@@ -23667,10 +23658,7 @@
       "Abyssal",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "22",
-      "lair": "23"
-    },
+    "cr": "22",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -24412,10 +24400,7 @@
       "thieves' cant",
       "plus any one language"
     ],
-    "cr": {
-      "cr": "11",
-      "lair": "12"
-    },
+    "cr": "11",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day)",
@@ -26820,10 +26805,7 @@
       "telepathy 120 ft.",
       "Thieves' cant"
     ],
-    "cr": {
-      "cr": "17",
-      "lair": "18"
-    },
+    "cr": "17",
     "trait": [
       {
         "name": "Alien Mind",
@@ -27774,10 +27756,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "21",
-      "lair": "22"
-    },
+    "cr": "21",
     "trait": [
       {
         "name": "Inviolate Presence",
@@ -29282,10 +29261,7 @@
       "Draconic",
       "Sylvan"
     ],
-    "cr": {
-      "cr": "3",
-      "coven": "5"
-    },
+    "cr": "3",
     "spellcasting": [
       {
         "name": "Innate Spellcasting",
@@ -37274,10 +37250,7 @@
       "Infernal",
       "Primordial"
     ],
-    "cr": {
-      "cr": "5",
-      "coven": "7"
-    },
+    "cr": "5",
     "spellcasting": [
       {
         "name": "Innate Spellcasting",
@@ -49753,10 +49726,7 @@
       "Aquan",
       "Common"
     ],
-    "cr": {
-      "cr": "1",
-      "xp": 100
-    },
+    "cr": "1",
     "trait": [
       {
         "name": "Amphibious",
@@ -62381,10 +62351,7 @@
       "Common",
       "Giant"
     ],
-    "cr": {
-      "cr": "12",
-      "lair": "14"
-    },
+    "cr": "12",
     "spellcasting": [
       {
         "name": "Innate Spellcasting",
@@ -63405,10 +63372,7 @@
       "Deep Speech",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "22",
-      "lair": "23"
-    },
+    "cr": "22",
     "trait": [
       {
         "name": "Alien Mind",
@@ -68290,10 +68254,7 @@
       "Draconic",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "11",
-      "xpLair": 8400
-    },
+    "cr": "11",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day, or 4/Day in Lair)",
@@ -68402,10 +68363,7 @@
       "Common",
       "Draconic; telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -68546,10 +68504,7 @@
       "Draconic",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "18",
-      "xpLair": 22000
-    },
+    "cr": "18",
     "trait": [
       {
         "name": "Legendary Resistance (4/Day, or 5/Day in Lair)",
@@ -70336,10 +70291,7 @@
       "Infernal",
       "Thieves' cant"
     ],
-    "cr": {
-      "cr": "8",
-      "xpLair": 5000
-    },
+    "cr": "8",
     "gear": [
       "studded leather armor|xphb"
     ],
@@ -72175,10 +72127,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "21",
-      "xpLair": 41000
-    },
+    "cr": "21",
     "gear": [
       "component pouch|xphb"
     ],
@@ -73000,10 +72949,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "16",
-      "lair": "17"
-    },
+    "cr": "16",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -73177,10 +73123,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "12",
-      "lair": "13"
-    },
+    "cr": "12",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -73351,10 +73294,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "14",
-      "lair": "15"
-    },
+    "cr": "14",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -73526,10 +73466,7 @@
       "Gnomish",
       "Sylvan"
     ],
-    "cr": {
-      "cr": "15",
-      "lair": "16"
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -73710,10 +73647,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "15",
-      "lair": "16"
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -73895,10 +73829,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "13",
-      "lair": "14"
-    },
+    "cr": "13",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -74389,10 +74320,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "23",
-      "lair": "24"
-    },
+    "cr": "23",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -74569,10 +74497,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "19",
-      "lair": "20"
-    },
+    "cr": "19",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -74911,10 +74836,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "21",
-      "lair": "22"
-    },
+    "cr": "21",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -75083,10 +75005,7 @@
       "all",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "21",
-      "lair": "22"
-    },
+    "cr": "21",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -75268,10 +75187,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "22",
-      "lair": "23"
-    },
+    "cr": "22",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -75576,10 +75492,7 @@
       "Draconic",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "20",
-      "lair": "21"
-    },
+    "cr": "20",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -124533,10 +124446,7 @@
       "Giant",
       "Sylvan"
     ],
-    "cr": {
-      "cr": "6",
-      "coven": "8"
-    },
+    "cr": "6",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -126448,10 +126358,7 @@
       "Common",
       "Giant"
     ],
-    "cr": {
-      "cr": "7",
-      "coven": "9"
-    },
+    "cr": "7",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -134818,10 +134725,7 @@
       "all",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "23",
-      "lair": "24"
-    },
+    "cr": "23",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -135582,10 +135486,7 @@
       "all",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "22",
-      "lair": "23"
-    },
+    "cr": "22",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -136349,10 +136250,7 @@
     "languages": [
       "Gith"
     ],
-    "cr": {
-      "cr": "16",
-      "lair": "17"
-    },
+    "cr": "16",
     "spellcasting": [
       {
         "name": "Spellcasting (Psionics)",
@@ -138783,10 +138681,7 @@
       "all",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "23",
-      "lair": "24"
-    },
+    "cr": "23",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -141765,10 +141660,7 @@
     "languages": [
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "11",
-      "lair": "12"
-    },
+    "cr": "11",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -151716,10 +151608,7 @@
       "all",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "24",
-      "lair": "25"
-    },
+    "cr": "24",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -153298,10 +153187,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "18",
-      "lair": "19"
-    },
+    "cr": "18",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day)",
@@ -153413,10 +153299,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "26",
-      "lair": "27"
-    },
+    "cr": "26",
     "trait": [
       {
         "name": "Cycle of Rebirth",
@@ -174258,10 +174141,7 @@
       "Deep Speech",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "13",
-      "lair": "14"
-    },
+    "cr": "13",
     "trait": [
       {
         "name": "Antimagic Cone",
@@ -186978,10 +186858,7 @@
     "languages": [
       "Common plus up to five other languages"
     ],
-    "cr": {
-      "cr": "21",
-      "lair": "22"
-    },
+    "cr": "21",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day)",
@@ -193676,10 +193553,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "17",
-      "xpLair": 20000
-    },
+    "cr": "17",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -193834,10 +193708,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "23",
-      "xpLair": 62000
-    },
+    "cr": "23",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -194460,10 +194331,7 @@
     "languages": [
       "Common (can't speak in panther form)"
     ],
-    "cr": {
-      "cr": "11",
-      "xpLair": 8400
-    },
+    "cr": "11",
     "trait": [
       {
         "name": "Darklord Restoration",
@@ -194608,10 +194476,7 @@
     "languages": [
       "all; telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "25",
-      "xpLair": 90000
-    },
+    "cr": "25",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -195026,10 +194891,7 @@
     "languages": [
       "Common; telepathy 10 ft."
     ],
-    "cr": {
-      "cr": "13",
-      "xpLair": 11500
-    },
+    "cr": "13",
     "trait": [
       {
         "name": "Darklord Restoration",
@@ -195639,10 +195501,7 @@
     "languages": [
       "all; telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "21",
-      "xpLair": 41000
-    },
+    "cr": "21",
     "trait": [
       {
         "name": "Aberrant Restoration",
@@ -195905,10 +195764,7 @@
     "languages": [
       "Common (can't speak in dire wolf form)"
     ],
-    "cr": {
-      "cr": "14",
-      "xpLair": 13000
-    },
+    "cr": "14",
     "gear": [
       {
         "item": "viol|xphb",
@@ -196057,10 +195913,7 @@
       "Infernal",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "14",
-      "xpLair": 13000
-    },
+    "cr": "14",
     "gear": [
       "quarterstaff|xphb"
     ],
@@ -196566,10 +196419,7 @@
     "languages": [
       "Common"
     ],
-    "cr": {
-      "cr": "5",
-      "xpLair": 2300
-    },
+    "cr": "5",
     "trait": [
       {
         "name": "Darklord Restoration",
@@ -196677,10 +196527,7 @@
     "languages": [
       "Common"
     ],
-    "cr": {
-      "cr": "5",
-      "xpLair": 2300
-    },
+    "cr": "5",
     "spellcasting": [
       {
         "name": "Charm {@recharge 5}",
@@ -197023,10 +196870,7 @@
     "languages": [
       "all; telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "19",
-      "xpLair": 25000
-    },
+    "cr": "19",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day, or 4/Day in lair)",
@@ -197138,10 +196982,7 @@
       "Common",
       "Infernal"
     ],
-    "cr": {
-      "cr": "19",
-      "xpLair": 25000
-    },
+    "cr": "19",
     "spellcasting": [
       {
         "name": "Commanding Magic (3/Day)",
@@ -198005,10 +197846,7 @@
       "Elvish",
       "Sylvan"
     ],
-    "cr": {
-      "cr": "8",
-      "xpLair": 5000
-    },
+    "cr": "8",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -198561,10 +198399,7 @@
       "Abyssal",
       "Common"
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -199213,10 +199048,7 @@
     "languages": [
       "Common"
     ],
-    "cr": {
-      "cr": "9",
-      "xpLair": 5900
-    },
+    "cr": "9",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -199579,10 +199411,7 @@
       "Giant",
       "Infernal"
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -200504,10 +200333,7 @@
       "Goblin",
       "Halfling"
     ],
-    "cr": {
-      "cr": "7",
-      "xpLair": 3900
-    },
+    "cr": "7",
     "gear": [
       "studded leather armor|xphb"
     ],
@@ -200673,10 +200499,7 @@
       "Giant",
       "Orc"
     ],
-    "cr": {
-      "cr": "12",
-      "xpLair": 10000
-    },
+    "cr": "12",
     "gear": [
       "pike|xphb",
       {
@@ -201010,10 +200833,7 @@
     "languages": [
       "Common"
     ],
-    "cr": {
-      "cr": "6",
-      "xpLair": 2900
-    },
+    "cr": "6",
     "trait": [
       {
         "name": "Darklord Restoration",
@@ -202462,10 +202282,7 @@
     "languages": [
       "the languages it knew in life"
     ],
-    "cr": {
-      "cr": "15",
-      "lair": "16"
-    },
+    "cr": "15",
     "trait": [
       {
         "name": "Magic Resistance",
@@ -216828,10 +216645,7 @@
     "speed": {
       "walk": 30
     },
-    "cr": {
-      "cr": "0",
-      "xp": 0
-    },
+    "cr": "0",
     "size": [
       "M"
     ],
@@ -222909,10 +222723,7 @@
       "Elvish",
       "Draconic"
     ],
-    "cr": {
-      "cr": "5",
-      "xp": 450
-    },
+    "cr": "5",
     "size": [
       "L"
     ],
@@ -226870,10 +226681,7 @@
     "resist": [
       "fire"
     ],
-    "cr": {
-      "cr": "15",
-      "xp": 6500
-    },
+    "cr": "15",
     "size": [
       "M"
     ],
@@ -228586,10 +228394,7 @@
       "Deep Speech",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "10",
-      "xp": 2950
-    },
+    "cr": "10",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -228708,10 +228513,7 @@
       "darkvision 60 ft."
     ],
     "passive": 9,
-    "cr": {
-      "cr": "3",
-      "xp": 350
-    },
+    "cr": "3",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -228785,10 +228587,7 @@
     "languages": [
       "Draconic"
     ],
-    "cr": {
-      "cr": "11",
-      "xp": 3600
-    },
+    "cr": "11",
     "action": [
       {
         "name": "Multiattack",
@@ -228878,11 +228677,7 @@
       "Deep Speech",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "13",
-      "lair": "14",
-      "xp": 5000
-    },
+    "cr": "13",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229037,10 +228832,7 @@
       "frightened",
       "prone"
     ],
-    "cr": {
-      "cr": "4",
-      "xp": 550
-    },
+    "cr": "4",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229124,10 +228916,7 @@
       "darkvision 60 ft."
     ],
     "passive": 13,
-    "cr": {
-      "cr": "2",
-      "xp": 225
-    },
+    "cr": "2",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229230,10 +229019,7 @@
     "languages": [
       "understands the languages of its creator but can't speak"
     ],
-    "cr": {
-      "cr": "9",
-      "xp": 2500
-    },
+    "cr": "9",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229328,10 +229114,7 @@
       "blindsight 60 ft."
     ],
     "passive": 10,
-    "cr": {
-      "cr": "1/2",
-      "xp": 50
-    },
+    "cr": "1/2",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229406,10 +229189,7 @@
       "darkvision 60 ft."
     ],
     "passive": 11,
-    "cr": {
-      "cr": "3",
-      "xp": 350
-    },
+    "cr": "3",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229494,10 +229274,7 @@
       "Aquan",
       "Draconic"
     ],
-    "cr": {
-      "cr": "17",
-      "xp": 9000
-    },
+    "cr": "17",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229583,10 +229360,7 @@
       "darkvision 60 ft."
     ],
     "passive": 13,
-    "cr": {
-      "cr": "2",
-      "xp": 225
-    },
+    "cr": "2",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229695,10 +229469,7 @@
     "languages": [
       "understands the languages of its creator but can't speak"
     ],
-    "cr": {
-      "cr": "5",
-      "xp": 900
-    },
+    "cr": "5",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -229831,10 +229602,7 @@
       "Abyssal",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "9",
-      "xp": 2500
-    },
+    "cr": "9",
     "spellcasting": [
       {
         "name": "Innate Spellcasting",
@@ -229940,10 +229708,7 @@
       "frightened",
       "prone"
     ],
-    "cr": {
-      "cr": "1/2",
-      "xp": 50
-    },
+    "cr": "1/2",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230050,10 +229815,7 @@
     "languages": [
       "understands the languages of its creator but can't speak"
     ],
-    "cr": {
-      "cr": "4",
-      "xp": 550
-    },
+    "cr": "4",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230160,10 +229922,7 @@
       "Abyssal",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "8",
-      "xp": 1950
-    },
+    "cr": "8",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230249,10 +230008,7 @@
     "languages": [
       "Hook Horror"
     ],
-    "cr": {
-      "cr": "3",
-      "xp": 350
-    },
+    "cr": "3",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230335,10 +230091,7 @@
       "frightened",
       "prone"
     ],
-    "cr": {
-      "cr": "2",
-      "xp": 225
-    },
+    "cr": "2",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230418,10 +230171,7 @@
     "languages": [
       "Otyugh"
     ],
-    "cr": {
-      "cr": "5",
-      "xp": 900
-    },
+    "cr": "5",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230496,10 +230246,7 @@
       "darkvision 60 ft."
     ],
     "passive": 13,
-    "cr": {
-      "cr": "3",
-      "xp": 350
-    },
+    "cr": "3",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230587,10 +230334,7 @@
     "languages": [
       "understands Common and Elvish but can't speak"
     ],
-    "cr": {
-      "cr": "2",
-      "xp": 225
-    },
+    "cr": "2",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230680,10 +230424,7 @@
       "cold",
       "fire"
     ],
-    "cr": {
-      "cr": "11",
-      "xp": 3600
-    },
+    "cr": "11",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230774,10 +230515,7 @@
     "languages": [
       "understands the languages of its creator but can't speak"
     ],
-    "cr": {
-      "cr": "10",
-      "xp": 2950
-    },
+    "cr": "10",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -230897,10 +230635,7 @@
       "Abyssal",
       "telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "6",
-      "xp": 1150
-    },
+    "cr": "6",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -231011,10 +230746,7 @@
     "languages": [
       "the languages it knew in life"
     ],
-    "cr": {
-      "cr": "3",
-      "xp": 350
-    },
+    "cr": "3",
     "trait": [
       {
         "name": "Reduced Threat",
@@ -231097,10 +230829,7 @@
       "darkvision 60 ft."
     ],
     "passive": 14,
-    "cr": {
-      "cr": "6",
-      "xp": 1150
-    },
+    "cr": "6",
     "action": [
       {
         "name": "Multiattack",
@@ -238594,10 +238323,7 @@
       "Draconic",
       "Sylvan"
     ],
-    "cr": {
-      "cr": "3",
-      "coven": "5"
-    },
+    "cr": "3",
     "spellcasting": [
       {
         "name": "Innate Spellcasting",
@@ -269215,10 +268941,7 @@
       "Deep Speech",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "13",
-      "lair": "14"
-    },
+    "cr": "13",
     "trait": [
       {
         "name": "Special Equipment",
@@ -270639,10 +270362,7 @@
     "languages": [
       "Common plus up to five other languages"
     ],
-    "cr": {
-      "cr": "21",
-      "lair": "22"
-    },
+    "cr": "21",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day)",
@@ -273246,10 +272966,7 @@
       "paralyzed",
       "poisoned"
     ],
-    "cr": {
-      "cr": "21",
-      "lair": "22"
-    },
+    "cr": "21",
     "trait": [
       {
         "name": "Special Equipment",
@@ -274283,10 +274000,7 @@
       "paralyzed",
       "poisoned"
     ],
-    "cr": {
-      "cr": "15",
-      "lair": "16"
-    },
+    "cr": "15",
     "trait": [
       {
         "name": "Magic Resistance",
@@ -279258,10 +278972,7 @@
   {
     "name": "Space Hamster",
     "source": "WDMM",
-    "cr": {
-      "cr": "0",
-      "xp": 0
-    },
+    "cr": "0",
     "size": [
       "T"
     ],
@@ -284586,10 +284297,7 @@
       "deafened",
       "frightened"
     ],
-    "cr": {
-      "cr": "0",
-      "xp": 0
-    },
+    "cr": "0",
     "reaction": [
       {
         "name": "Shriek",
@@ -284894,10 +284602,7 @@
       "Darkvision 60 ft."
     ],
     "passive": 10,
-    "cr": {
-      "cr": "0",
-      "xp": 0
-    },
+    "cr": "0",
     "slug": "giant-fly-xdmg"
   },
   {
@@ -285201,10 +284906,7 @@
     "languages": [
       "Deep Speech; telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "10",
-      "xpLair": 7200
-    },
+    "cr": "10",
     "trait": [
       {
         "name": "Amphibious",
@@ -285434,10 +285136,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "14",
-      "xpLair": 13000
-    },
+    "cr": "14",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -285582,10 +285281,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "16",
-      "xpLair": 18000
-    },
+    "cr": "16",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -285727,10 +285423,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "13",
-      "xpLair": 11500
-    },
+    "cr": "13",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -285875,10 +285568,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -286029,10 +285719,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "14",
-      "xpLair": 13000
-    },
+    "cr": "14",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -286180,10 +285867,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "17",
-      "xpLair": 20000
-    },
+    "cr": "17",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -286339,10 +286023,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -286485,10 +286166,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "17",
-      "xpLair": 20000
-    },
+    "cr": "17",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -286626,10 +286304,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "16",
-      "xpLair": 18000
-    },
+    "cr": "16",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -286773,10 +286448,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "13",
-      "xpLair": 11500
-    },
+    "cr": "13",
     "spellcasting": [
       {
         "name": "Frightful Presence",
@@ -287058,10 +286730,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "21",
-      "xpLair": 41000
-    },
+    "cr": "21",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -287207,10 +286876,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "23",
-      "xpLair": 62000
-    },
+    "cr": "23",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -287352,10 +287018,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "20",
-      "xpLair": 33000
-    },
+    "cr": "20",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -287500,10 +287163,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "22",
-      "xpLair": 50000
-    },
+    "cr": "22",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -287656,10 +287316,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "21",
-      "xpLair": 41000
-    },
+    "cr": "21",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -287808,10 +287465,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "24",
-      "xpLair": 75000
-    },
+    "cr": "24",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -287968,10 +287622,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "22",
-      "xpLair": 50000
-    },
+    "cr": "22",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -288115,10 +287766,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "24",
-      "xpLair": 75000
-    },
+    "cr": "24",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -288257,10 +287905,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "23",
-      "xpLair": 62000
-    },
+    "cr": "23",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -288406,10 +288051,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "20",
-      "xpLair": 33000
-    },
+    "cr": "20",
     "spellcasting": [
       {
         "name": "Frightful Presence",
@@ -289371,10 +289013,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "21",
-      "xpLair": 41000
-    },
+    "cr": "21",
     "spellcasting": [
       {
         "name": "Coven Magic",
@@ -291477,10 +291116,7 @@
       "Deep Speech",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "13",
-      "xpLair": 11500
-    },
+    "cr": "13",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day, or 4/Day in Lair)",
@@ -296638,10 +296274,7 @@
       "Deep Speech",
       "Undercommon"
     ],
-    "cr": {
-      "cr": "14",
-      "xpLair": 13000
-    },
+    "cr": "14",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day, or 4/Day in Lair)",
@@ -296893,10 +296526,7 @@
       "prone",
       "stunned"
     ],
-    "cr": {
-      "cr": "18",
-      "xpLair": 22000
-    },
+    "cr": "18",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day, or 4/Day in Lair)",
@@ -297593,10 +297223,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "17",
-      "xpLair": 20000
-    },
+    "cr": "17",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -308851,10 +308478,7 @@
       "Infernal",
       "and Primordial but can't speak; telepathy 120 ft."
     ],
-    "cr": {
-      "cr": "23",
-      "xpLair": 62000
-    },
+    "cr": "23",
     "trait": [
       {
         "name": "Amphibious",
@@ -309639,10 +309263,7 @@
     "languages": [
       "all"
     ],
-    "cr": {
-      "cr": "21",
-      "xpLair": 41000
-    },
+    "cr": "21",
     "gear": [
       "component pouch|xphb"
     ],
@@ -312489,10 +312110,7 @@
     "languages": [
       "Common plus three other languages"
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -365708,10 +365326,7 @@
       "stealth": "+5"
     },
     "passive": 12,
-    "cr": {
-      "cr": "0",
-      "xp": 0
-    },
+    "cr": "0",
     "trait": [
       {
         "name": "Water Breathing",
@@ -365999,10 +365614,7 @@
       "Common",
       "Draconic"
     ],
-    "cr": {
-      "cr": "13",
-      "xpLair": 11500
-    },
+    "cr": "13",
     "trait": [
       {
         "name": "Legendary Resistance (3/Day, or 4/Day in Lair)",
@@ -366273,10 +365885,7 @@
       "deafened",
       "frightened"
     ],
-    "cr": {
-      "cr": "0",
-      "xp": 0
-    },
+    "cr": "0",
     "reaction": [
       {
         "name": "Shriek",
@@ -367026,10 +366635,7 @@
       "Celestial",
       "Common"
     ],
-    "cr": {
-      "cr": "11",
-      "xpLair": 8400
-    },
+    "cr": "11",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -367285,10 +366891,7 @@
       "Celestial",
       "Common"
     ],
-    "cr": {
-      "cr": "17",
-      "xpLair": 20000
-    },
+    "cr": "17",
     "spellcasting": [
       {
         "name": "Spellcasting",
@@ -370834,10 +370437,7 @@
     "languages": [
       "Common plus two other languages"
     ],
-    "cr": {
-      "cr": "13",
-      "xpLair": 11500
-    },
+    "cr": "13",
     "spellcasting": [
       {
         "name": "Charm {@recharge 5}",
@@ -371364,10 +370964,7 @@
     "languages": [
       "Common plus three other languages"
     ],
-    "cr": {
-      "cr": "15",
-      "xpLair": 15000
-    },
+    "cr": "15",
     "spellcasting": [
       {
         "name": "Hunger of Hadar {@recharge 5}",

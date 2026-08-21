@@ -64,6 +64,13 @@ const updated = filtered.map((entry) => {
   for (const field of fieldsToRemove) {
     delete cleaned[field];
   }
+  if (
+    typeof cleaned.cr === "object" &&
+    cleaned.cr !== null &&
+    "cr" in cleaned.cr
+  ) {
+    cleaned.cr = cleaned.cr.cr;
+  }
   return cleaned;
 });
 
