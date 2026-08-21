@@ -12,7 +12,7 @@ export interface CreatureMetadata {
   name?: string;
   role: CreatureRole;
   permissions?: Permission[];
-  cr?: number;
+  cr?: string;
   currentHp?: number;
   maxHp?: number;
   tempHp?: number;

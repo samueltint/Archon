@@ -95,8 +95,11 @@ function App(props: { userRole: "GM" | "PLAYER"; userId: string }) {
           id: getPluginId("menu/setStatblock"),
           onClick(context) {
             const itemIds = context.items.map((item) => item.id).join(",");
+            const allItemsHaveSameName = context.items.every(
+              (item) => item.name === context.items[0].name,
+            );
             const searchQuery =
-              context.items.length == 1
+              context.items.length == 1 || allItemsHaveSameName
                 ? `&searchQuery=${context.items[0].name.replaceAll(" ", "+")}`
                 : "";
             OBR.popover.open({
@@ -114,6 +117,46 @@ function App(props: { userRole: "GM" | "PLAYER"; userId: string }) {
             });
           },
         });
+        // OBR.contextMenu.create({
+        //   icons: [
+        //     {
+        //       icon: "/user-pen.svg",
+        //       label: "Set Statblocks by Name",
+        //       filter: {
+        //         every: [
+        //           { key: "layer", value: "CHARACTER", coordinator: "||" },
+        //           { key: "layer", value: "MOUNT" },
+        //           { key: "type", value: "IMAGE" },
+        //         ],
+        //         permissions: ["UPDATE"],
+        //       },
+        //     },
+        //   ],
+        //   id: getPluginId("menu/setStatblockByName"),
+        //   onClick(context) {
+        //     const itemIds = context.items.map((item) => item.id).join(",");
+        //     const allItemsHaveSameName = context.items.every(
+        //       (item) => item.name === context.items[0].name,
+        //     );
+        //     const searchQuery =
+        //       context.items.length == 1 || allItemsHaveSameName
+        //         ? `&searchQuery=${context.items[0].name.replaceAll(" ", "+")}`
+        //         : "";
+        //     OBR.popover.open({
+        //       id: "archon/statblock",
+        //       url: `/?panel=searchStatblocks${searchQuery}&itemIds=${encodeURIComponent(itemIds)}`,
+        //       height: 500,
+        //       width: 400,
+        //       disableClickAway: true,
+        //       anchorElementId: context.items[0].id,
+        //       anchorPosition: { left: 200, top: 0 },
+        //       transformOrigin: {
+        //         horizontal: "RIGHT",
+        //         vertical: "TOP",
+        //       },
+        //     });
+        //   },
+        // });
         OBR.contextMenu.create({
           icons: [
             {

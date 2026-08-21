@@ -21,6 +21,7 @@ import type { Monster } from "../../types/5eToolsMonster";
 import StatblockSearchItem from "./statblockSearchItem";
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import { CreatureToItem } from "../../util/itemToCreature";
+import statToMod from "../../util/statToModifier";
 
 // Cache the bestiary after first load so subsequent searches are instant
 let bestiaryCache: unknown = null;
@@ -34,7 +35,8 @@ function monsterToCreature(monster: Monster) {
     slug: monster.slug,
     maxHp: monster.hp.average,
     ac: parseSimpleValue(monster.ac),
-    cr: parseSimpleValue(monster.cr),
+    cr: monster.cr,
+    initiativeModifier: statToMod(monster.dex),
     stats: {
       str: monster.str,
       dex: monster.dex,
@@ -162,7 +164,7 @@ function StatblockSearchList() {
             slug: "monster",
             maxHp: 10,
             ac: 10,
-            cr: 0,
+            cr: "0",
             stats: {
               str: 10,
               dex: 10,
