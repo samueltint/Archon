@@ -1,6 +1,6 @@
 {
   "name": "Archon",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "manifest_version": 3,
   "description": "Initiative tracker with 5eTools integration",
   "icon": "/wings.png",

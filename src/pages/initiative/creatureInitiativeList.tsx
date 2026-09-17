@@ -6,6 +6,7 @@ import {
   Redo,
   Undo,
   Casino,
+  Settings,
 } from "@mui/icons-material";
 import {
   Box,
@@ -25,14 +26,20 @@ import CreatureInitiativeItem from "./creatureInitiativeItem";
 import type { Creature } from "../../types/creature";
 import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { getPluginId } from "../../util/getPluginId";
-import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
+import { CreatureToImage, ImageToCreature } from "../../util/ImageToCreature";
 import { isPlainObject } from "../../util/isPlainObject";
 import CreatureSettingsDialog from "./creatureSettingsDialog";
 import { Scrollbar } from "react-scrollbars-custom";
+import SceneSettingsDialog from "./sceneSettingsDialog";
 
 type InitiativeMetadata = {
   roundCount?: number;
   activeCreature?: Creature | null;
+};
+
+export type SettingsMetadata = {
+  showEnemyHealth?: boolean;
+  displayNamesDefault?: boolean;
 };
 
 type CreatureInitiativeListProps = {
@@ -44,14 +51,45 @@ type CreatureInitiativeListProps = {
 
 function CreatureInitiativeList(props: CreatureInitiativeListProps) {
   const { creatures, setCreatures, userRole, userId } = props;
-  const [open, setOpen] = useState(false);
+  const [openClearConfirm, setOpenClearConfirm] = useState(false);
+  const [openSceneSettings, setOpenSceneSettings] = useState(false);
   const [roundCount, setRoundCount] = useState(1);
   const [initiativeMetadata, setInitiativeMetadata] = useState<
     InitiativeMetadata | undefined
   >();
+  const [settingsMetadata, setSettingsMetadata] = useState<
+    SettingsMetadata | undefined
+  >();
 
   const [settingsId, setSettingsId] = useState<string>();
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [openCreatureSettings, setOpenCreatureSettings] = useState(false);
+
+  useEffect(() => {
+    const handleMetadataChange = async (metadata: Record<string, unknown>) => {
+      const metadataValue = metadata[getPluginId("settings/metadata")];
+      if (isPlainObject(metadataValue)) {
+        const settingsMetadata = metadataValue as SettingsMetadata;
+        setSettingsMetadata(settingsMetadata);
+      } else {
+        setSettingsMetadata(undefined);
+      }
+    };
+
+    void OBR.scene.getMetadata().then(handleMetadataChange);
+    return OBR.scene.onMetadataChange(handleMetadataChange);
+  }, []);
+
+  const updateSettingsMetadata = (updates: Partial<SettingsMetadata>) => {
+    const nextSettingsMetadata = {
+      ...settingsMetadata,
+      ...updates,
+    };
+
+    setSettingsMetadata(nextSettingsMetadata);
+    void OBR.scene.setMetadata({
+      [getPluginId("settings/metadata")]: nextSettingsMetadata,
+    });
+  };
 
   useEffect(() => {
     const handleItemsChange = async (items: Item[]) => {
@@ -61,7 +99,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
           getPluginId("initiative/metadata")
         ] as { initiative: number };
         if (isPlainObject(initiativeMetadata) && isImage(item)) {
-          const creature = ItemToCreature(item, initiativeMetadata.initiative);
+          const creature = ImageToCreature(item, initiativeMetadata.initiative);
           if (creature) {
             creatures.push(creature);
           }
@@ -206,7 +244,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
         activeCreature: null,
       },
     });
-    setOpen(false);
+    setOpenClearConfirm(false);
   };
 
   const onUpdate = (updatedCreature: Creature) => {
@@ -219,7 +257,12 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (item.id !== creature.id) continue;
-        CreatureToItem(item, creature, true);
+        CreatureToImage(
+          item,
+          creature,
+          true,
+          settingsMetadata?.displayNamesDefault ?? false,
+        );
       }
     });
   };
@@ -251,7 +294,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
 
   const handleSettingsClick = (id: string | undefined) => {
     setSettingsId(id);
-    setSettingsOpen(true);
+    setOpenCreatureSettings(true);
   };
 
   const activeCreature =
@@ -392,6 +435,10 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
                         }
                         userRole={userRole}
                         userId={userId}
+                        showHp={
+                          userRole === "GM" ||
+                          (settingsMetadata?.showEnemyHealth ?? false)
+                        }
                       />
                     </ListItem>
                   )
@@ -449,11 +496,14 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             variant="outlined"
             color="error"
             startIcon={<DoNotDisturb />}
-            onClick={() => setOpen(true)}
+            onClick={() => setOpenClearConfirm(true)}
           >
-            Clear Initiative List
+            Clear List
           </Button>
-          <Dialog open={open} onClose={() => setOpen(false)}>
+          <Dialog
+            open={openClearConfirm}
+            onClose={() => setOpenClearConfirm(false)}
+          >
             <Typography variant="subtitle1" sx={{ p: 3 }}>
               Are you sure you want to clear all creatures?
             </Typography>
@@ -472,20 +522,36 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
               <Button
                 variant="outlined"
                 color="primary"
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenClearConfirm(false)}
               >
                 Cancel
               </Button>
             </Stack>
           </Dialog>
+          <IconButton onClick={() => setOpenSceneSettings(true)}>
+            <Settings />
+          </IconButton>
+          <Dialog
+            fullWidth
+            open={openSceneSettings}
+            onClose={() => setOpenSceneSettings(false)}
+          >
+            <SceneSettingsDialog
+              settingsMetadata={settingsMetadata}
+              updateSettingsMetadata={updateSettingsMetadata}
+            />
+          </Dialog>
         </Stack>
       )}
       <Dialog
         fullWidth
-        open={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
+        open={openCreatureSettings}
+        onClose={() => setOpenCreatureSettings(false)}
       >
-        <CreatureSettingsDialog itemId={settingsId} />
+        <CreatureSettingsDialog
+          itemId={settingsId}
+          displayNameDefault={settingsMetadata?.displayNamesDefault}
+        />
       </Dialog>
     </Box>
   );

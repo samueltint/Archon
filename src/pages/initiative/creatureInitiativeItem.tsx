@@ -13,6 +13,7 @@ export default function CreatureInitiativeItem(props: {
   handleSettingsClick: () => void;
   userRole: "GM" | "PLAYER";
   userId: string;
+  showHp: boolean;
 }) {
   const {
     creature,
@@ -23,6 +24,7 @@ export default function CreatureInitiativeItem(props: {
     handleSettingsClick,
     userRole,
     userId,
+    showHp,
   } = props;
 
   const theme = useTheme();
@@ -106,65 +108,69 @@ export default function CreatureInitiativeItem(props: {
         }}
       ></ControlledInput>
 
-      <Divider orientation="vertical" variant="middle" flexItem />
+      {props.showHp && (
+        <>
+          <Divider orientation="vertical" variant="middle" flexItem />
 
-      <ControlledInput
-        disabled={!canWrite}
-        value={creature.currentHp ?? creature.maxHp ?? 0}
-        size="sm"
-        onBlur={onBlur}
-        onChange={(e) => {
-          onUpdate({
-            ...creature,
-            currentHp: parseInt(e.target.value) || 0,
-          });
-        }}
-      ></ControlledInput>
+          <ControlledInput
+            disabled={!canWrite}
+            value={creature.currentHp ?? creature.maxHp ?? 0}
+            size="sm"
+            onBlur={onBlur}
+            onChange={(e) => {
+              onUpdate({
+                ...creature,
+                currentHp: parseInt(e.target.value) || 0,
+              });
+            }}
+          ></ControlledInput>
 
-      <Typography sx={{ fontSize: "1rem" }}>/</Typography>
+          <Typography sx={{ fontSize: "1rem" }}>/</Typography>
 
-      <ControlledInput
-        disabled={!canWrite}
-        value={creature.maxHp}
-        size="sm"
-        onBlur={onBlur}
-        onChange={(e) => {
-          onUpdate({
-            ...creature,
-            maxHp: parseInt(e.target.value) || 0,
-          });
-        }}
-      ></ControlledInput>
-      <Divider orientation="vertical" variant="middle" flexItem />
+          <ControlledInput
+            disabled={!canWrite}
+            value={creature.maxHp}
+            size="sm"
+            onBlur={onBlur}
+            onChange={(e) => {
+              onUpdate({
+                ...creature,
+                maxHp: parseInt(e.target.value) || 0,
+              });
+            }}
+          ></ControlledInput>
+          <Divider orientation="vertical" variant="middle" flexItem />
 
-      <ControlledInput
-        disabled={!canWrite}
-        value={creature.tempHp ?? 0}
-        size="xs"
-        sx={{ width: "auto" }}
-        onBlur={onBlur}
-        onChange={(e) => {
-          onUpdate({
-            ...creature,
-            tempHp: parseInt(e.target.value) || 0,
-          });
-        }}
-      ></ControlledInput>
+          <ControlledInput
+            disabled={!canWrite}
+            value={creature.tempHp ?? 0}
+            size="xs"
+            sx={{ width: "auto" }}
+            onBlur={onBlur}
+            onChange={(e) => {
+              onUpdate({
+                ...creature,
+                tempHp: parseInt(e.target.value) || 0,
+              });
+            }}
+          ></ControlledInput>
 
-      <Divider orientation="vertical" variant="middle" flexItem />
-      <ControlledInput
-        disabled={!canWrite}
-        value={creature.ac ?? 0}
-        size="xs"
-        sx={{ width: "auto" }}
-        onBlur={onBlur}
-        onChange={(e) => {
-          onUpdate({
-            ...creature,
-            ac: parseInt(e.target.value),
-          });
-        }}
-      ></ControlledInput>
+          <Divider orientation="vertical" variant="middle" flexItem />
+          <ControlledInput
+            disabled={!canWrite}
+            value={creature.ac ?? 0}
+            size="xs"
+            sx={{ width: "auto" }}
+            onBlur={onBlur}
+            onChange={(e) => {
+              onUpdate({
+                ...creature,
+                ac: parseInt(e.target.value),
+              });
+            }}
+          ></ControlledInput>
+        </>
+      )}
       {userRole == "GM" && (
         <>
           <Divider orientation="vertical" variant="middle" flexItem />

@@ -20,7 +20,7 @@ import query from "../../util/query";
 import type { Monster } from "../../types/5eToolsMonster";
 import StatblockSearchItem from "./statblockSearchItem";
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
-import { CreatureToItem } from "../../util/itemToCreature";
+import { CreatureToImage } from "../../util/ImageToCreature";
 import statToMod from "../../util/statToModifier";
 
 // Cache the bestiary after first load so subsequent searches are instant
@@ -30,7 +30,7 @@ function monsterToCreature(monster: Monster) {
   return {
     isVisible: true,
     role: "enemy",
-    displayName: false,
+    displayName: "default",
     name: monster.name,
     slug: monster.slug,
     maxHp: monster.hp.average,
@@ -127,7 +127,7 @@ function StatblockSearchList() {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (selectedIds.includes(item.id)) {
-          CreatureToItem(item, creature, false);
+          CreatureToImage(item, creature, false);
         }
       }
     });
@@ -159,7 +159,7 @@ function StatblockSearchList() {
           handlePreviewClick({
             isVisible: true,
             role: "enemy",
-            displayName: false,
+            displayName: "default",
             name: "Monster",
             slug: "monster",
             maxHp: 10,

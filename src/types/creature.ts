@@ -20,7 +20,7 @@ export interface CreatureMetadata {
   initiativeModifier?: number;
   stats?: CreatureStats;
   allTraits?: CreatureTraits;
-  displayName: boolean;
+  displayName: "true" | "false" | "default";
 }
 
 export type Permission = {

@@ -1,5 +1,4 @@
 import {
-  Checkbox,
   Container,
   Divider,
   MenuItem,
@@ -9,14 +8,15 @@ import {
 } from "@mui/material";
 import OBR, { isImage, type Item } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
-import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
+import { CreatureToImage, ImageToCreature } from "../../util/ImageToCreature";
 import { roles, type Creature } from "../../types/creature";
 import PermissionsCard from "./permissionsCard";
 
 export default function CreatureSettingsDialog(props: {
   itemId: string | undefined;
+  displayNameDefault: boolean | undefined;
 }) {
-  const { itemId } = props;
+  const { itemId, displayNameDefault } = props;
 
   const [item, setItem] = useState<Item>();
   const [creature, setCreature] = useState<Creature>();
@@ -27,7 +27,7 @@ export default function CreatureSettingsDialog(props: {
 
     void OBR.scene.items.getItems([itemId]).then(([loadedItem]) => {
       if (!isImage(loadedItem)) return;
-      const loadedCreature = ItemToCreature(loadedItem);
+      const loadedCreature = ImageToCreature(loadedItem);
       if (!loadedCreature) return;
 
       setItem(loadedItem);
@@ -40,9 +40,15 @@ export default function CreatureSettingsDialog(props: {
     if (!item || !creature) return;
     void OBR.scene.items.updateItems([item], (items) => {
       if (!isImage(items[0])) return;
-      CreatureToItem(items[0], creature, true);
+      CreatureToImage(items[0], creature, true, displayNameDefault ?? false);
     });
   }, [item, creature]);
+
+  const updateCreature = (updates: Partial<Creature>) => {
+    setCreature((currentCreature) =>
+      currentCreature ? { ...currentCreature, ...updates } : currentCreature,
+    );
+  };
 
   if (isLoading) {
     return (
@@ -70,24 +76,37 @@ export default function CreatureSettingsDialog(props: {
           value={creature.role ?? "enemy"}
           size="small"
           sx={{ fontSize: "1rem" }}
-          onChange={(e) => {
-            setCreature({ ...creature, role: e.target.value });
-          }}
+          onChange={(event) => updateCreature({ role: event.target.value })}
         >
           {roles.map((role) => {
-            return <MenuItem value={role}>{role}</MenuItem>;
+            return (
+              <MenuItem key={role} value={role}>
+                {role}
+              </MenuItem>
+            );
           })}
         </Select>
       </Stack>
       <Stack direction={"row"} sx={{ alignItems: "center", gap: 1 }}>
         <Typography sx={{ fontSize: "1rem" }}>{"Display Name: "}</Typography>
-        <Checkbox
-          checked={creature.displayName}
-          onChange={(e) => {
-            const nextDisplayName = e.target.checked;
-            setCreature({ ...creature, displayName: nextDisplayName });
-          }}
-        ></Checkbox>
+        <Select
+          value={creature.displayName}
+          size="small"
+          sx={{ fontSize: "1rem" }}
+          onChange={(event) =>
+            updateCreature({ displayName: event.target.value })
+          }
+        >
+          <MenuItem key={"true"} value={"true"}>
+            True
+          </MenuItem>
+          <MenuItem key={"false"} value={"false"}>
+            False
+          </MenuItem>
+          <MenuItem key={"default"} value={"default"}>
+            Default
+          </MenuItem>
+        </Select>
       </Stack>
       <PermissionsCard creature={creature} setCreature={setCreature} />
     </Stack>

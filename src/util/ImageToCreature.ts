@@ -2,7 +2,10 @@ import { isImage, type Image, type Item } from "@owlbear-rodeo/sdk";
 import type { Creature, CreatureMetadata } from "../types/creature";
 import { getPluginId } from "./getPluginId";
 
-function ImageToCreature(item: Item, initiative?: number): Creature | undefined {
+function ImageToCreature(
+  item: Item,
+  initiative?: number,
+): Creature | undefined {
   if (!isImage(item)) return undefined;
 
   const creatureMetadata = item.metadata[
@@ -25,22 +28,40 @@ function ImageToCreature(item: Item, initiative?: number): Creature | undefined 
     stats: creatureMetadata?.stats,
     allTraits: creatureMetadata?.allTraits,
     permissions: creatureMetadata?.permissions,
-    displayName: creatureMetadata?.displayName ?? false,
+    displayName: creatureMetadata?.displayName ?? "default",
   } as Creature;
 }
 
 function CreatureToImage(
   image: Image,
   creature: Creature,
+  updateName?: false,
+): void;
+
+function CreatureToImage(
+  image: Image,
+  creature: Creature,
+  updateName: true,
+  displayNameDefault: boolean,
+): void;
+
+function CreatureToImage(
+  image: Image,
+  creature: Creature,
   updateName?: boolean,
+  displayNameDefault?: boolean,
 ): void {
   if ((creature.currentHp ?? 0) > (creature.maxHp ?? 0)) {
     creature.currentHp = creature.maxHp;
   }
 
+  const displayName =
+    creature.displayName == "true" ||
+    (creature.displayName === "default" && displayNameDefault);
+
   if (updateName) {
     image.name = creature.name;
-    const nextText = creature.displayName ? creature.name : "";
+    const nextText = displayName ? creature.name : "";
     image.text = {
       ...image.text,
       type: "PLAIN",
@@ -71,4 +92,4 @@ function CreatureToImage(
   };
 }
 
-export { ImageToCreature as ItemToCreature, CreatureToImage as CreatureToItem };
+export { ImageToCreature, CreatureToImage };

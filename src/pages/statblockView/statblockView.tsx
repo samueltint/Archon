@@ -2,7 +2,7 @@ import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import type { Creature, CreatureStats } from "../../types/creature";
 import ControlledInput from "../../components/controlledInput";
 import { useEffect, useState } from "react";
-import { CreatureToItem, ItemToCreature } from "../../util/itemToCreature";
+import { CreatureToImage, ImageToCreature } from "../../util/ImageToCreature";
 import OBR, { isImage } from "@owlbear-rodeo/sdk";
 import StatsTable from "./statsTable";
 import EntryTable from "./entryTable";
@@ -21,7 +21,7 @@ function StatblockView(props: { userRole: "GM" | "PLAYER"; userId: string }) {
     if (itemIds.length === 0) return;
 
     OBR.scene.items.getItems(itemIds).then((items) => {
-      const creature = items.filter(isImage).map((item) => ItemToCreature(item))[0];
+      const creature = items.filter(isImage).map((item) => ImageToCreature(item))[0];
       setState({ itemId: itemIds[0], creature: creature ?? undefined });
     });
   }, []);
@@ -61,7 +61,7 @@ function StatblockView(props: { userRole: "GM" | "PLAYER"; userId: string }) {
     OBR.scene.items.updateItems(isImage, (items) => {
       for (const item of items) {
         if (item.id == itemId) {
-          CreatureToItem(item, creature, true);
+          CreatureToImage(item, creature, true, false);
         }
       }
     });

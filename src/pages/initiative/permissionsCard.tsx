@@ -9,7 +9,7 @@ import {
 import type { Creature, Permission } from "../../types/creature";
 import OBR, { isImage, type Player } from "@owlbear-rodeo/sdk";
 import { useEffect, useState } from "react";
-import { CreatureToItem } from "../../util/itemToCreature";
+import { CreatureToImage } from "../../util/ImageToCreature";
 
 export default function PermissionsCard(props: {
   creature: Creature;
@@ -72,7 +72,7 @@ function PermissionItem(props: {
       const item = items[0];
       if (!item || !isImage(item)) return;
 
-      CreatureToItem(item, nextCreature);
+      CreatureToImage(item, nextCreature);
     });
   };
 
