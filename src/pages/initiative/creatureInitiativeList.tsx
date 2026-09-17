@@ -303,6 +303,8 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
     ) ??
     initiativeMetadata?.activeCreature ??
     undefined;
+  const showHp =
+    userRole === "GM" || (settingsMetadata?.showEnemyHealth ?? false);
 
   return (
     <Box
@@ -354,37 +356,41 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
             </Typography>
             <Divider orientation="vertical" flexItem />
 
-            <Box
-              sx={{
-                width: "100px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Favorite fontSize="small" color="primary" />
-            </Box>
+            {showHp && (
+              <>
+                <Box
+                  sx={{
+                    width: "100px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Favorite fontSize="small" color="primary" />
+                </Box>
 
-            <Divider orientation="vertical" flexItem />
-            <Box
-              sx={{
-                width: "25px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <TempHpIcon fontSize="small" color="primary" />
-            </Box>
+                <Divider orientation="vertical" flexItem />
+                <Box
+                  sx={{
+                    width: "25px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TempHpIcon fontSize="small" color="primary" />
+                </Box>
 
-            <Divider orientation="vertical" flexItem />
-            <Box
-              sx={{
-                width: "25px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Shield fontSize="small" color="primary" />
-            </Box>
+                <Divider orientation="vertical" flexItem />
+                <Box
+                  sx={{
+                    width: "25px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Shield fontSize="small" color="primary" />
+                </Box>
+              </>
+            )}
             {userRole == "GM" && (
               <>
                 <Divider orientation="vertical" flexItem />
@@ -435,10 +441,7 @@ function CreatureInitiativeList(props: CreatureInitiativeListProps) {
                         }
                         userRole={userRole}
                         userId={userId}
-                        showHp={
-                          userRole === "GM" ||
-                          (settingsMetadata?.showEnemyHealth ?? false)
-                        }
+                        showHp={showHp}
                       />
                     </ListItem>
                   )
