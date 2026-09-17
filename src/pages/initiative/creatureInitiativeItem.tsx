@@ -108,7 +108,7 @@ export default function CreatureInitiativeItem(props: {
         }}
       ></ControlledInput>
 
-      {props.showHp && (
+      {showHp && (
         <>
           <Divider orientation="vertical" variant="middle" flexItem />
 
